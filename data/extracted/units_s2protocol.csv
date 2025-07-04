@@ -1,0 +1,4 @@
+﻿english_id,chinese_name,commander,mineral_cost,gas_cost,supply_cost,hp,shields,armor,collision_radius,movement_speed,is_flying,attributes,special_abilities
+Marine,陆战队员,吉姆·雷诺,50,0,1,45,0,0,0.75,2.25,FALSE,"轻甲,生物",[]
+Zealot,狂热者,阿塔尼斯,100,0,2,100,50,1,0.75,2.25,FALSE,"轻甲,生物,灵能",[]
+Zergling,跳虫,凯瑞甘,50,0,0.5,35,0,0,0.375,2.95,FALSE,"轻甲,生物",[]

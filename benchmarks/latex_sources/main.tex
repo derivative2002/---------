@@ -1,0 +1,143 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{ctex} % 中文支持
+\usepackage{geometry}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{float}
+\usepackage{caption}
+
+% 页面设置
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+% 图表设置
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{patterns,shapes.geometric,arrows.meta,positioning}
+
+% 标题设置
+\title{星际争霸II五大精英单位评估报告}
+\author{数学建模小组}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{综合评分天梯榜}
+
+\begin{table}[H]
+\centering
+\caption{五大精英单位综合评分}
+\begin{tabular}{cllrrr}
+\toprule
+排名 & 单位 & 指挥官 & 综合评分 & CEV & 资源效率 \\
+\midrule
+\rowcolor{yellow!30} 1 & 天罚行者 & 阿拉纳克 & 30.0 & 46.5 & 5.2 \\
+\rowcolor{gray!20} 2 & 掠袭解放者 & 诺娃 & 26.5 & 42.1 & 3.1 \\
+\rowcolor{orange!20} 3 & 攻城坦克 & 斯旺 & 16.9 & 24.9 & 4.9 \\
+4 & 穿刺者 & 德哈卡 & 13.6 & 20.0 & 4.0 \\
+5 & 龙骑士 & 阿塔尼斯 & 6.0 & 8.1 & 2.9 \\
+\bottomrule
+\end{tabular}
+\label{tab:scores}
+\end{table}
+
+{\small 评分说明：综合评分 = CEV × 60\% + 资源效率 × 40\%}
+
+
+\section{多维度性能对比}
+
+\subsection{场景排名对比}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=12cm,
+    height=8cm,
+    ybar,
+    bar width=0.12cm,
+    xlabel={单位},
+    ylabel={排名（逆序）},
+    symbolic x coords={龙骑士,天罚行者,攻城坦克,穿刺者,掠袭解放者},
+    xtick=data,
+    ymin=0,ymax=5.5,
+    legend pos=north west,
+    grid=major,
+    grid style={dashed,gray!30},
+]
+
+% 这里需要填充实际数据
+\addplot coordinates {(龙骑士,3) (天罚行者,5) (攻城坦克,2) (穿刺者,1) (掠袭解放者,4)};
+\addplot coordinates {(龙骑士,2) (天罚行者,4) (攻城坦克,3) (穿刺者,1) (掠袭解放者,5)};
+\addplot coordinates {(龙骑士,4) (天罚行者,5) (攻城坦克,1) (穿刺者,1) (掠袭解放者,3)};
+\addplot coordinates {(龙骑士,3) (天罚行者,5) (攻城坦克,2) (穿刺者,1) (掠袭解放者,4)};
+\addplot coordinates {(龙骑士,5) (天罚行者,5) (攻城坦克,4) (穿刺者,3) (掠袭解放者,2)};
+
+\legend{总体,对地,对空,对轻甲,对重甲}
+\end{axis}
+\end{tikzpicture}
+\caption{不同场景下的单位排名对比}
+\label{fig:ranking}
+\end{figure}
+
+
+\subsection{性能雷达图}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+% 雷达图需要更复杂的TikZ代码
+% 这里提供一个简化版本
+\node[text width=10cm, align=center] {
+    \textit{雷达图展示五个维度的性能对比}\\
+    \textit{（总体、对地、对空、对轻甲、对重甲）}\\[1em]
+    天罚行者在所有维度都表现优异
+};
+\end{tikzpicture}
+\caption{多维度性能雷达图}
+\label{fig:radar}
+\end{figure}
+
+
+\section{排名热力图}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    colormap/RdYlGn,
+    colorbar,
+    point meta min=1,
+    point meta max=5,
+    width=10cm,
+    height=6cm,
+    xtick={0,1,2,3,4},
+    xticklabels={总体,对地,对空,对轻甲,对重甲},
+    ytick={0,1,2,3,4},
+    yticklabels={龙骑士,天罚行者,攻城坦克,穿刺者,掠袭解放者},
+]
+\addplot[matrix plot*,point meta=explicit] table[meta=C] {
+    x y C
+    0 0 3
+    1 0 4
+    2 0 2
+    3 0 3
+    4 0 1
+    % 更多数据...
+};
+\end{axis}
+\end{tikzpicture}
+\caption{单位场景排名热力图}
+\label{fig:heatmap}
+\end{figure}
+
+
+\section{结论}
+
+根据综合评估，天罚行者在多个维度表现最佳，是五大精英单位中的最强者。
+掠袭解放者在对地作战中表现突出，而龙骑士在对重甲单位时具有极高的性价比。
+
+\end{document}

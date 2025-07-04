@@ -1,0 +1,8 @@
+﻿unit_id,weapon_name,weapon_type,base_damage,attack_count,attack_interval,range,bonus_damage,splash_type,splash_params
+AlarakWrathwalker,相位分裂炮,both,100,1,2.0,10,"[{""target_attribute"": ""建筑"", ""bonus"": 75}]",none,{}
+NovaRaidLiberator,列克星敦火箭,air,13,2,1.8,9,[],none,{}
+NovaRaidLiberator,康科德炮,ground,125,1,1.6,13,[],circular,"{""radius"": 2.0}"
+DehakaImpaler,穿刺棘刺,ground,20,1,1.45,11,"[{""target_attribute"": ""重甲"", ""bonus"": 25}]",none,{}
+ArtanisDragoon,相位分裂炮,both,15,1,1.44,8,"[{""target_attribute"": ""重甲"", ""bonus"": 15}]",none,{}
+SwannSiegeTank,90mm火炮,ground,15,1,1.04,7,"[{""target_attribute"": ""重甲"", ""bonus"": 10}]",none,{}
+SwannSiegeTank,震荡炮(攻城模式),ground,35,1,2.14,13,"[{""target_attribute"": ""重甲"", ""bonus"": 15}]",circular,"{""radius"": 1.25}"

@@ -1,0 +1,13 @@
+unit_id,mode_name,mode_type,stat_modifiers,weapon_config,switch_time
+Viking,突袭模式,default,{},加特林机炮,0
+Viking,战斗模式,alternate,"{""movement_speed"":1.1,""is_flying"":true}",兰泽鱼雷,2.25
+ThorMengsk,标准模式,default,{},"雷神之锤,标枪导弹发射器",0
+ThorMengsk,高爆模式,alternate,"{""movement_speed"":-0.5}",250mm惩罚者火炮,2.0
+RaidLiberator,战斗机模式,default,{},列克星敦火箭,4.0
+RaidLiberator,防御者模式,alternate,"{""movement_speed"":-3.375}",协和加农炮,4.0
+RaidLiberator_AS15,战斗机模式,default,{},"列克星敦火箭(+15%速)",4.0
+RaidLiberator_AS15,防御者模式,alternate,"{""movement_speed"":-3.375}","协和加农炮(+15%速)",4.0
+SiegeTank_Raynor,坦克模式,default,{},90mm火炮,0
+SiegeTank_Raynor,攻城模式,alternate,"{}",震荡炮,4.0
+SiegeTank_Swann,坦克模式,default,{},90mm火炮,0
+SiegeTank_Swann,攻城模式,alternate,"{}",震荡炮,4.0

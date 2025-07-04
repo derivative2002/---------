@@ -1,0 +1,134 @@
+# 批量实验配置 - 完整分析套件
+
+batch_name: "星际争霸II v2.1模型完整分析"
+description: "运行一系列实验以全面评估游戏平衡性和单位效能"
+
+# 实验列表
+experiments:
+  # 1. 基础单位评估
+  - name: "全指挥官单位评估"
+    type: "unit_eval"
+    description: "评估所有指挥官的单位在各阶段的表现"
+    commanders:
+      - "吉姆·雷诺"
+      - "凯瑞甘"
+      - "阿塔尼斯"
+      - "斯旺"
+      - "扎加拉"
+      - "沃拉尊"
+      - "阿巴瑟"
+      - "诺娃·泰拉"
+      - "斯托科夫"
+      - "菲尼克斯(塔兰达)"
+      - "德哈卡"
+      - "汉与霍纳"
+      - "泰凯斯"
+      - "泽拉图"
+      - "斯台特曼"
+      - "蒙斯克"
+      - "阿拉纳克"
+    units: []  # 评估所有单位
+    save_plots: true
+    generate_report: true
+    
+  # 2. 精英单位对比
+  - name: "精英单位深度分析"
+    type: "unit_eval"
+    description: "深入分析各指挥官的王牌单位"
+    commanders: ["all"]
+    units:
+      - "升格者"
+      - "突袭解放者"
+      - "大和炮"
+      - "雷兽"
+      - "母舰"
+      - "混合体"
+    game_phases: ["mid_game", "late_game"]
+    extra_params:
+      detailed_analysis: true
+      include_upgrades: true
+      
+  # 3. 指挥官平衡性
+  - name: "指挥官整体平衡性评估"
+    type: "cmd_comp"
+    description: "评估所有指挥官的整体强度和特色"
+    commanders: ["all"]
+    extra_params:
+      include_winrate_data: false  # 如有实际数据可设为true
+      weight_by_popularity: false
+      
+  # 4. 克制关系矩阵
+  - name: "核心单位克制关系"
+    type: "cem_viz"
+    description: "可视化主要单位间的克制关系"
+    units:
+      # 地面主力
+      - "陆战队员"
+      - "掠夺者"
+      - "攻城坦克"
+      - "跳虫"
+      - "刺蛇"
+      - "雷兽"
+      - "狂热者"
+      - "追猎者"
+      - "不朽者"
+      # 空军主力
+      - "维京战机"
+      - "解放者"
+      - "战列巡航舰"
+      - "飞龙"
+      - "腐化者"
+      - "凤凰"
+      - "虚空辉光舰"
+      
+  # 5. 参数敏感性分析
+  - name: "模型参数敏感性分析"
+    type: "param_sweep"
+    description: "测试关键参数对模型结果的影响"
+    extra_params:
+      sweep_params:
+        gas_weight: [2.0, 2.5, 3.0]
+        supply_base_value: [10, 12.5, 15]
+      sensitivity_targets:
+        - "unit_rankings"
+        - "commander_balance"
+        
+  # 6. 协同效应研究
+  - name: "经典组合协同效应"
+    type: "synergy"
+    description: "分析经典单位组合的协同加成"
+    extra_params:
+      synergy_combinations:
+        - name: "生化球"
+          commander: "吉姆·雷诺"
+          units: ["陆战队员", "掠夺者", "医疗兵"]
+          
+        - name: "天空流"
+          commander: "吉姆·雷诺"  
+          units: ["维京战机", "解放者", "战列巡航舰", "渡鸦"]
+          
+        - name: "狗毒爆"
+          commander: "凯瑞甘"
+          units: ["跳虫", "毒爆虫", "女王"]
+          
+        - name: "黄金舰队"
+          commander: "阿塔尼斯"
+          units: ["航母", "风暴战舰", "虚空辉光舰"]
+          
+        - name: "死亡舰队"
+          commander: "阿拉纳克"
+          units: ["升格者", "虚空光晕", "末日降临者"]
+
+# 批量运行设置
+batch_settings:
+  parallel_execution: false     # 是否并行执行
+  continue_on_error: true      # 错误时是否继续
+  summary_report: true         # 生成汇总报告
+  archive_results: false       # 是否归档结果
+  
+# 输出设置
+output:
+  base_dir: "experiments/results/batch"
+  timestamp_format: "%Y%m%d_%H%M%S"
+  create_summary_plots: true
+  create_comparison_table: true

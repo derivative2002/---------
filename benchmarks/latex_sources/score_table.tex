@@ -1,0 +1,25 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{ctex}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\begin{document}
+\begin{table}[H]
+\centering
+\caption{五大精英单位综合评分}
+\begin{tabular}{cllrrr}
+\toprule
+排名 & 单位 & 指挥官 & 综合评分 & CEV & 资源效率 \\
+\midrule
+\rowcolor{yellow!30} 1 & 天罚行者 & 阿拉纳克 & 30.0 & 46.5 & 5.2 \\
+\rowcolor{gray!20} 2 & 掠袭解放者 & 诺娃 & 26.5 & 42.1 & 3.1 \\
+\rowcolor{orange!20} 3 & 攻城坦克 & 斯旺 & 16.9 & 24.9 & 4.9 \\
+4 & 穿刺者 & 德哈卡 & 13.6 & 20.0 & 4.0 \\
+5 & 龙骑士 & 阿塔尼斯 & 6.0 & 8.1 & 2.9 \\
+\bottomrule
+\end{tabular}
+\label{tab:scores}
+\end{table}
+
+{\small 评分说明：综合评分 = CEV × 60\% + 资源效率 × 40\%}
+
+\end{document}

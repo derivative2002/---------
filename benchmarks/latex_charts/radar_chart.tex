@@ -1,0 +1,39 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{pgfplots}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+\setmainfont{Times New Roman}
+\usetikzlibrary{pgfplots.polar}
+\pgfplotsset{compat=1.17}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{polaraxis}[
+    title={\Large 五大精英单位多维度性能对比},
+    width=12cm,
+    height=12cm,
+    xtick={0,72,144,216,288},
+    xticklabels={总体,对地,对空,对轻甲,对重甲},
+    ymin=0,
+    ymax=1,
+    ytick={0,0.2,0.4,0.6,0.8,1},
+    yticklabels={0,0.2,0.4,0.6,0.8,1},
+    grid=both,
+    grid style={dashed,gray!30},
+    legend style={at={(1.3,1)},anchor=north west},
+]
+
+\addplot[thick,color=blue,mark=*,fill=blue,fill opacity=0.1] coordinates {(0,0.1737525267385566) (72,0.22382359184604939) (144,0.30901218601503294) (216,0.1737525267385566) (288,0.3475050534771132) (360,0.1737525267385566)};
+\addlegendentry{龙骑士}
+\addplot[thick,color=red,mark=*,fill=red,fill opacity=0.1] coordinates {(0,1.0) (72,0.7243196287254534) (144,1.0) (216,1.0) (288,1.0) (360,1.0)};
+\addlegendentry{天罚行者}
+\addplot[thick,color=green,mark=*,fill=green,fill opacity=0.1] coordinates {(0,0.5364898096241607) (72,0.6910925465824418) (144,0.15936586394938534) (216,0.5364898096241607) (288,0.7021627568570101) (360,0.5364898096241607)};
+\addlegendentry{攻城坦克}
+\addplot[thick,color=orange,mark=*,fill=orange,fill opacity=0.1] coordinates {(0,0.42966975287383297) (72,0.5534896625735516) (144,0.1702026325811459) (216,0.42966975287383297) (288,0.596653543161206) (360,0.42966975287383297)};
+\addlegendentry{穿刺者}
+\addplot[thick,color=purple,mark=*,fill=purple,fill opacity=0.1] coordinates {(0,0.9066316129955823) (72,1.0) (144,0.35866462501667795) (216,0.9066316129955823) (288,0.9066316129955823) (360,0.9066316129955823)};
+\addlegendentry{掠袭解放者}
+
+\end{polaraxis}
+\end{tikzpicture}
+\end{document}

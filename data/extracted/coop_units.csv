@@ -1,0 +1,21 @@
+﻿english_id,chinese_name,base_unit,commander,mineral_cost,gas_cost,supply_cost,hp,shields,armor,collision_radius,movement_speed,is_flying,attributes,special_abilities,mastery_bonuses,commander_level
+RaynorMarine,陆战队员(老兵),Marine,吉姆·雷诺,50,0,1,65,0,1,0.75,2.25,FALSE,"轻甲,生物","[{""name"": ""刺激剂"", ""type"": ""active"", ""effect"": ""+50%攻速移速15秒""}]","老兵升级,刺激剂升级",90
+RaynorFirebat,火焰兵(增强),Firebat,吉姆·雷诺,50,25,1,80,0,1,0.75,2.25,FALSE,"轻甲,生物","[{""name"": ""烈焰"", ""type"": ""passive"", ""effect"": ""溅射伤害""}]","护甲升级,伤害升级",90
+RaynorSiegeTank,攻城坦克(增强),SiegeTank,吉姆·雷诺,150,125,3,175,0,1,1.0,2.25,FALSE,"重甲,机械","[{""name"": ""攻城模式"", ""type"": ""toggle"", ""effect"": ""射程+4,伤害+70%""}, {""name"": ""穿甲弹"", ""type"": ""passive""}]","穿甲弹,射程升级",90
+RaynorBattlecruiser,战列巡航舰(增强),Battlecruiser,吉姆·雷诺,400,300,6,550,0,3,1.5,1.875,TRUE,"重甲,机械,巨型","[{""name"": ""大和炮"", ""type"": ""active"", ""damage"": 300}, {""name"": ""激光炮台"", ""type"": ""upgrade""}]","激光炮台,装甲升级",90
+KerriganZergling,跳虫(进化),Zergling,凯瑞甘,25,0,0.5,95,0,0,0.375,3.38,FALSE,"轻甲,生物","[{""name"": ""肾上腺腺体"", ""type"": ""passive"", ""effect"": ""+35%攻击速度""}, {""name"": ""代谢增进"", ""type"": ""passive""}]","肾上腺腺体,代谢增进,再生",90
+KerriganBaneling,爆虫(进化),Baneling,凯瑞甘,25,25,0.5,45,0,0,0.375,3.38,FALSE,"轻甲,生物","[{""name"": ""爆炸"", ""type"": ""passive"", ""damage"": 80}, {""name"": ""腐蚀爆炸"", ""type"": ""upgrade""}]","腐蚀爆炸,移速升级",90
+KerriganHydralisk,刺蛇(进化),Hydralisk,凯瑞甘,100,50,2,90,0,0,0.625,2.7,FALSE,"轻甲,生物","[{""name"": ""穿刺攻击"", ""type"": ""passive""}, {""name"": ""射程升级"", ""type"": ""upgrade"", ""effect"": ""射程+2""}]","穿刺攻击,射程升级,移速升级",90
+KerriganUltralisk,雷兽(进化),Ultralisk,凯瑞甘,300,200,6,500,0,2,1.0,2.7,FALSE,"重甲,生物,巨型","[{""name"": ""狂怒"", ""type"": ""passive"", ""effect"": ""受伤时+攻速""}, {""name"": ""毒素腺体"", ""type"": ""upgrade""}]","狂怒,毒素腺体,装甲升级",90
+ArtanisZealot,狂热者(增强),Zealot,阿塔尼斯,100,0,2,150,100,1,0.75,2.7,FALSE,"轻甲,生物,灵能","[{""name"": ""冲锋"", ""type"": ""active"", ""effect"": ""瞬移到目标""}, {""name"": ""拖拽攻击"", ""type"": ""passive""}]","冲锋,护盾升级,拖拽攻击",90
+ArtanisDragoon,龙骑士(增强),Dragoon,阿塔尼斯,125,50,2,100,120,1,0.75,2.7,FALSE,"重甲,机械","[{""name"": ""射程升级"", ""type"": ""upgrade"", ""effect"": ""射程+2""}]","射程升级,护盾升级",90
+ArtanisImmortal,不朽者(增强),Immortal,阿塔尼斯,250,100,4,200,100,1,1.0,2.25,FALSE,"重甲,机械","[{""name"": ""强化护盾"", ""type"": ""passive"", ""effect"": ""减少10点以上伤害""}, {""name"": ""影刃"", ""type"": ""upgrade""}]","强化护盾,影刃,护盾升级",90
+ArtanisCarrier,航母(增强),Carrier,阿塔尼斯,350,250,6,300,150,2,1.5,1.875,TRUE,"重甲,机械,巨型","[{""name"": ""拦截机"", ""type"": ""passive"", ""count"": 8}, {""name"": ""释放拦截机"", ""type"": ""active""}]","拦截机升级,护盾升级,装甲升级",90
+AlarakDestroyer,毁灭者,Destroyer,阿拉纳克,150,150,3,180,80,1,0.75,2.8,FALSE,"轻甲,机械,灵能","[{""name"": ""毁灭光束"", ""type"": ""active"", ""effect"": ""持续伤害""}, {""name"": ""虚空护甲"", ""type"": ""passive""}]","毁灭光束升级,虚空护甲",90
+AlarakAscendant,晋升者,Ascendant,阿拉纳克,100,200,3,60,120,0,0.75,2.25,FALSE,"轻甲,生物,灵能","[{""name"": ""灵能球"", ""type"": ""active""}, {""name"": ""心灵控制"", ""type"": ""active""}, {""name"": ""牺牲"", ""type"": ""active""}]","灵能球升级,心灵控制升级",90
+TychusOutlaw,泰凯斯,TychusHero,泰凯斯,0,0,5,800,0,2,0.75,2.25,FALSE,"重甲,生物,英雄","[{""name"": ""手雷"", ""type"": ""active""}, {""name"": ""破甲弹"", ""type"": ""active""}, {""name"": ""奥丁召唤"", ""type"": ""ultimate""}]",全升级套装,90
+TychusBlaze,布雷泽,BlazeHero,泰凯斯,0,0,5,600,0,1,0.75,2.25,FALSE,"轻甲,生物,英雄","[{""name"": ""烈焰喷射器"", ""type"": ""active""}, {""name"": ""燃烧"", ""type"": ""passive""}, {""name"": ""火焰链"", ""type"": ""active""}]",全升级套装,90
+StukovInfestedMarine,感染陆战队员,InfestedMarine,斯图科夫,50,0,1,60,0,1,0.75,2.25,FALSE,"轻甲,生物","[{""name"": ""感染爆炸"", ""type"": ""passive"", ""effect"": ""死亡时感染敌人""}]","感染升级,免费生产",90
+StukovInfestedSiegeTank,感染攻城坦克,InfestedSiegeTank,斯图科夫,150,125,3,200,0,1,1.0,2.25,FALSE,"重甲,机械,生物","[{""name"": ""攻城模式"", ""type"": ""toggle""}, {""name"": ""感染"", ""type"": ""passive""}]","感染升级,射程升级",90
+DehakaPrimalZergling,原始跳虫,PrimalZergling,德哈卡,25,0,0.5,45,0,0,0.375,3.15,FALSE,"轻甲,生物","[{""name"": ""跳跃"", ""type"": ""active""}, {""name"": ""原始本能"", ""type"": ""passive""}]","跳跃升级,基因突变",90
+DehakaPrimalGuardian,原始守护者,PrimalGuardian,德哈卡,150,200,4,400,0,2,1.25,1.88,TRUE,"重甲,生物,巨型","[{""name"": ""酸液喷射"", ""type"": ""active""}, {""name"": ""原始装甲"", ""type"": ""passive""}]","酸液升级,装甲进化",90

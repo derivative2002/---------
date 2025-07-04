@@ -1,0 +1,48 @@
+# 指挥官对比实验配置示例
+
+name: "精英指挥官综合实力对比"
+type: "cmd_comp"
+description: "对比游戏中最受欢迎的指挥官，分析各自的优势和特色"
+
+# 对比的指挥官
+commanders:
+  # 强力输出型
+  - "阿拉纳克"
+  - "泰凯斯"
+  - "诺娃·泰拉"
+  # 经济发展型
+  - "斯旺"
+  - "凯瑞甘"
+  - "扎加拉"
+  # 支援控制型
+  - "阿塔尼斯"
+  - "沃拉尊"
+  - "斯台特曼"
+
+# 评估的游戏阶段
+game_phases:
+  - "early_game"
+  - "mid_game"
+  - "late_game"
+
+# 对比维度
+extra_params:
+  comparison_metrics:
+    - "avg_unit_cost"        # 平均单位成本
+    - "total_unit_variety"   # 单位多样性
+    - "early_game_power"     # 前期强度
+    - "late_game_scaling"    # 后期成长性
+    - "versatility_score"    # 适应性得分
+    - "synergy_potential"    # 协同潜力
+    
+  # 可视化选项
+  visualization:
+    create_radar_chart: true      # 雷达图
+    create_bar_charts: true       # 柱状图
+    create_timeline: true         # 时间线对比
+    highlight_top_n: 3           # 高亮前N名
+
+# 输出设置
+save_plots: true
+save_raw_data: true
+generate_report: true

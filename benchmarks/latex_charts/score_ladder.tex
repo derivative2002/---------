@@ -1,0 +1,41 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{pgfplots}
+\usepackage{xeCJK}
+\usepackage{array}
+\usepackage{colortbl}
+\setCJKmainfont{SimSun}
+\setmainfont{Times New Roman}
+\pgfplotsset{compat=1.17}
+
+\begin{document}
+\begin{tikzpicture}
+\node[anchor=north west] {
+\Large\textbf{综合评分天梯榜}\\[0.5cm]
+\begin{tabular}{|c|l|l|r|r|}
+\hline
+\rowcolor{gray!20}
+\textbf{排名} & \textbf{单位} & \textbf{指挥官} & \textbf{综合评分} & \textbf{CEV} \\
+\hline
+\cellcolor{yellow!30}1 & 天罚行者 & 阿拉纳克 & 30.0 & 46.5 \\
+\hline
+\cellcolor{gray!20}2 & 掠袭解放者 & 诺娃 & 26.5 & 42.1 \\
+\hline
+\cellcolor{orange!20}3 & 攻城坦克 & 斯旺 & 16.9 & 24.9 \\
+\hline
+4 & 穿刺者 & 德哈卡 & 13.6 & 20.0 \\
+\hline
+5 & 龙骑士 & 阿塔尼斯 & 6.0 & 8.1 \\
+\hline
+
+\end{tabular}
+};
+
+% 添加评分说明
+\node[anchor=north west, text width=10cm] at (0,-5) {
+\small
+\textbf{评分说明:}\\
+综合评分 = CEV × 60\% + 资源效率 × 40\%\\
+其中CEV为战斗效能值，资源效率为单位CEV与成本的比值
+};
+\end{tikzpicture}
+\end{document}

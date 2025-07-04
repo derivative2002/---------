@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:arxiv.org)",
+      "Bash(python3:*)",
+      "Bash(pip3 install:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(ls:*)",
+      "WebFetch(domain:docs.google.com)",
+      "Bash(xelatex:*)",
+      "Bash(pdflatex:*)",
+      "Bash(fc-list:*)",
+      "Bash(open simple_test.pdf)",
+      "Bash(pdffonts:*)",
+      "Bash(make:*)",
+      "Bash(echo:*)",
+      "Bash(rm:*)",
+      "Bash(grep:*)",
+      "Bash(chmod:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "Bash(python:*)",
+      "Bash(find:*)",
+      "Bash(touch:*)",
+      "Bash(true)",
+      "Bash(sqlite3:*)",
+      "WebFetch(domain:starcraft2coop.com)",
+      "WebFetch(domain:starcraft.fandom.com)",
+      "WebFetch(domain:liquipedia.net)",
+      "Bash(./cleanup_data_scripts.sh:*)",
+      "Bash(./compile.sh)"
+    ],
+    "deny": []
+  }
+}

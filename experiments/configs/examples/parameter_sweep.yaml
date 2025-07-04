@@ -1,0 +1,84 @@
+# 参数扫描实验配置示例
+
+name: "人口压力因子优化扫描"
+type: "param_sweep"
+description: "扫描不同的人口压力因子参数，找出最优的动态平衡设置"
+
+# 基础设置
+model_version: "v2.1"
+
+# 扫描参数配置
+extra_params:
+  sweep_params:
+    # 人口压力因子参数
+    lambda_k:  # sigmoid增长速率
+      - 0.01   # 缓慢增长
+      - 0.03
+      - 0.05   # 标准增长
+      - 0.08
+      - 0.10   # 快速增长
+      
+    lambda_t0:  # 转折点（秒）
+      - 180     # 3分钟（快速游戏）
+      - 300     # 5分钟（标准）
+      - 600     # 10分钟（慢速发展）
+      - 900     # 15分钟
+      
+  # 测试配置
+  test_scenarios:
+    - name: "rush_scenario"
+      description: "快攻场景"
+      evaluation_times: [60, 120, 180, 240, 300]
+      
+    - name: "standard_scenario"  
+      description: "标准发展"
+      evaluation_times: [180, 360, 600, 900, 1200]
+      
+    - name: "late_game_scenario"
+      description: "后期决战"
+      evaluation_times: [600, 900, 1200, 1500, 1800]
+      
+  # 测试单位
+  test_units:
+    - name: "陆战队员"
+      commander: "吉姆·雷诺"
+      mineral_cost: 45
+      gas_cost: 0
+      supply_cost: 1
+      
+    - name: "攻城坦克"
+      commander: "吉姆·雷诺"
+      mineral_cost: 150
+      gas_cost: 125
+      supply_cost: 3
+      
+    - name: "战列巡航舰"
+      commander: "吉姆·雷诺"
+      mineral_cost: 400
+      gas_cost: 300
+      supply_cost: 6
+      
+  # 优化目标
+  optimization_goals:
+    - "smooth_progression"     # 平滑的强度增长
+    - "phase_distinction"      # 明显的阶段区分
+    - "late_game_importance"   # 后期人口重要性
+    
+  # 分析设置
+  analysis:
+    calculate_derivatives: true    # 计算导数
+    find_inflection_points: true   # 找拐点
+    sensitivity_analysis: true     # 敏感度分析
+
+# 输出设置
+save_plots: true
+save_raw_data: true
+generate_report: true
+
+# 可视化设置
+extra_params:
+  plot_settings:
+    create_3d_surface: true       # 3D曲面图
+    create_heatmaps: true         # 热力图
+    create_parameter_curves: true # 参数曲线
+    animate_progression: false    # 动画（耗时）
