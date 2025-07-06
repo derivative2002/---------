@@ -1,20 +1,28 @@
-# Core dependencies
-numpy>=1.21.0
+# 星际争霸II合作任务单位战斗效能评估系统 v2.4
+# Python依赖包列表
+
+# 核心科学计算库
+numpy>=1.20.0
 pandas>=1.3.0
-matplotlib>=3.4.0
+
+# 可视化库
+matplotlib>=3.5.0
 seaborn>=0.11.0
 
-# Configuration and data
-pyyaml>=5.4.0
-openpyxl>=3.0.0  # For Excel support
+# 数据处理
+PyYAML>=6.0
 
-# Optional but recommended
-scipy>=1.7.0      # For advanced calculations
-tqdm>=4.62.0      # For progress bars
-tabulate>=0.8.9   # For nice table formatting
+# 类型检查（开发环境）
+mypy>=0.910
 
-# Development dependencies (optional)
-pytest>=6.2.0     # For testing
-black>=21.0       # For code formatting
-flake8>=3.9.0     # For linting
-jupyter>=1.0.0    # For notebooks
+# 代码格式化（开发环境）
+black>=21.0.0
+flake8>=3.9.0
+
+# 测试框架（开发环境）
+pytest>=6.0.0
+pytest-cov>=2.12.0
+
+# 文档生成（可选）
+sphinx>=4.0.0
+sphinx-rtd-theme>=0.5.0

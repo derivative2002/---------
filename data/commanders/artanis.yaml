@@ -1,0 +1,24 @@
+commander:
+  id: "Artanis"
+  name: "阿塔尼斯"
+  name_en: "Artanis"
+  faction: "Protoss"
+  
+  # 经济特性
+  mineral_gas_ratio: 2.5
+  population_cap: 200
+
+  # 指挥官特性
+  traits:
+    - "HasShieldOvercharge"
+    - "CanWarpInUnits"
+    
+  # 精通能力 (简化)
+  mastery:
+    - id: "ShieldOvercharge"
+      name: "护盾超载"
+    - id: "SpearOfAdunEnergy"
+      name: "亚顿之矛能量"
+    - id: "UnitAttackSpeed"
+      name: "单位攻速"
+      max_bonus: 0.30 

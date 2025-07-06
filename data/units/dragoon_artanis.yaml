@@ -1,0 +1,43 @@
+# 龙骑士 - 阿塔尼斯
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+unit:
+  # 基础标识
+  id: "Dragoon"
+  name: "龙骑士"
+  name_en: "Dragoon"
+  commander: "Artanis"
+  race: "Protoss"
+  
+  # 基础属性
+  stats:
+    life: 80
+    armor: 1
+    shields: 80
+    
+  # 成本信息
+  cost:
+    minerals: 125
+    vespene: 50
+    supply: 2
+    
+  # 移动属性
+  movement:
+    speed: 2.25
+    
+  # 物理属性
+  physics:
+    radius: 1.0
+    sight: 8
+    
+  # 单位类型和属性
+  plane: "Ground"
+  attributes:
+    - "Armored"
+    - "Mechanical"
+    
+  # 武器配置
+  weapons:
+    - weapon_ref: "PhaseDisruptor"
+      is_default: true 

@@ -1,0 +1,250 @@
+[
+  {
+    "cev": 113.38,
+    "cev_per_pop": 18.9,
+    "unit_name": "掠袭解放者",
+    "commander": "诺娃",
+    "weapon_mode": "AG",
+    "scenario": "standard",
+    "components": {
+      "dps_eff": 89.84,
+      "psi": 0.9,
+      "ehp": 495.0,
+      "omega": 0.75,
+      "f_range": 5.1,
+      "c_eff": 1350.0,
+      "mu": 2.0,
+      "splash_factor": 1.0
+    },
+    "details": {
+      "base_damage": 125,
+      "attacks": 1,
+      "period": 1.6,
+      "range": 13,
+      "life": 450,
+      "armor": 1,
+      "shields": 0,
+      "minerals": 375,
+      "vespene": 375,
+      "supply": 3
+    },
+    "display_name": "掠袭解放者"
+  },
+  {
+    "cev": 99.11,
+    "cev_per_pop": 16.52,
+    "unit_name": "天罚行者",
+    "commander": "阿拉纳克",
+    "weapon_mode": "upgraded",
+    "scenario": "standard",
+    "components": {
+      "dps_eff": 46.0,
+      "psi": 0.9,
+      "ehp": 595.0,
+      "omega": 1.3,
+      "f_range": 2.71,
+      "c_eff": 875.0,
+      "mu": 1.0,
+      "splash_factor": 1.0
+    },
+    "details": {
+      "base_damage": 100,
+      "attacks": 1,
+      "period": 2.5,
+      "range": 11,
+      "life": 350,
+      "armor": 1,
+      "shields": 150,
+      "minerals": 300,
+      "vespene": 200,
+      "supply": 6
+    },
+    "display_name": "普通天罚行者(快充)"
+  },
+  {
+    "cev": 70.79,
+    "cev_per_pop": 11.8,
+    "unit_name": "天罚行者",
+    "commander": "阿拉纳克",
+    "weapon_mode": "base",
+    "scenario": "standard",
+    "components": {
+      "dps_eff": 32.86,
+      "psi": 0.9,
+      "ehp": 595.0,
+      "omega": 1.3,
+      "f_range": 2.71,
+      "c_eff": 875.0,
+      "mu": 1.0,
+      "splash_factor": 1.0
+    },
+    "details": {
+      "base_damage": 100,
+      "attacks": 1,
+      "period": 3.5,
+      "range": 11,
+      "life": 350,
+      "armor": 1,
+      "shields": 150,
+      "minerals": 300,
+      "vespene": 200,
+      "supply": 6
+    },
+    "display_name": "普通天罚行者(无升级)"
+  },
+  {
+    "cev": 117.85,
+    "cev_per_pop": 19.64,
+    "unit_name": "灵魂巧匠天罚行者",
+    "commander": "阿拉纳克（灵魂巧匠）",
+    "weapon_mode": "default",
+    "scenario": "standard",
+    "components": {
+      "dps_eff": 114.29,
+      "psi": 0.8,
+      "ehp": 595.0,
+      "omega": 1.3,
+      "f_range": 2.71,
+      "c_eff": 1625.0,
+      "mu": 1.0,
+      "splash_factor": 1.0
+    },
+    "details": {
+      "base_damage": 200,
+      "attacks": 1,
+      "period": 1.75,
+      "range": 11,
+      "life": 350,
+      "armor": 1,
+      "shields": 150,
+      "minerals": 1050,
+      "vespene": 200,
+      "supply": 6
+    },
+    "display_name": "灵魂巧匠天罚行者"
+  },
+  {
+    "cev": 38.14,
+    "cev_per_pop": 12.71,
+    "unit_name": "穿刺者",
+    "commander": "德哈卡",
+    "weapon_mode": "default",
+    "scenario": "standard",
+    "components": {
+      "dps_eff": 27.59,
+      "psi": 1.0,
+      "ehp": 220.0,
+      "omega": 0.8,
+      "f_range": 3.83,
+      "c_eff": 487.5,
+      "mu": 1.0,
+      "splash_factor": 1.0
+    },
+    "details": {
+      "base_damage": 40,
+      "attacks": 1,
+      "period": 1.45,
+      "range": 11,
+      "life": 200,
+      "armor": 1,
+      "shields": 0,
+      "minerals": 200,
+      "vespene": 100,
+      "supply": 3
+    },
+    "display_name": "穿刺者"
+  },
+  {
+    "cev": 57.21,
+    "cev_per_pop": 19.07,
+    "unit_name": "穿刺者",
+    "commander": "德哈卡",
+    "weapon_mode": "default",
+    "scenario": "vs_armored",
+    "components": {
+      "dps_eff": 41.38,
+      "psi": 1.0,
+      "ehp": 220.0,
+      "omega": 0.8,
+      "f_range": 3.83,
+      "c_eff": 487.5,
+      "mu": 1.0,
+      "splash_factor": 1.0
+    },
+    "details": {
+      "base_damage": 40,
+      "attacks": 1,
+      "period": 1.45,
+      "range": 11,
+      "life": 200,
+      "armor": 1,
+      "shields": 0,
+      "minerals": 200,
+      "vespene": 100,
+      "supply": 3
+    },
+    "display_name": "穿刺者 (对重甲)"
+  },
+  {
+    "cev": 82.92,
+    "cev_per_pop": 27.64,
+    "unit_name": "攻城坦克",
+    "commander": "斯旺",
+    "weapon_mode": "siege",
+    "scenario": "standard",
+    "components": {
+      "dps_eff": 39.67,
+      "psi": 1.0,
+      "ehp": 286.0,
+      "omega": 0.8,
+      "f_range": 3.85,
+      "c_eff": 421.88,
+      "mu": 1.0,
+      "splash_factor": 1.4
+    },
+    "details": {
+      "base_damage": 35,
+      "attacks": 1,
+      "period": 3.0,
+      "range": 13,
+      "life": 200,
+      "armor": 1,
+      "shields": 0,
+      "minerals": 150,
+      "vespene": 125,
+      "supply": 3
+    },
+    "display_name": "攻城坦克"
+  },
+  {
+    "cev": 97.55,
+    "cev_per_pop": 32.52,
+    "unit_name": "攻城坦克",
+    "commander": "斯旺",
+    "weapon_mode": "siege",
+    "scenario": "vs_armored",
+    "components": {
+      "dps_eff": 46.67,
+      "psi": 1.0,
+      "ehp": 286.0,
+      "omega": 0.8,
+      "f_range": 3.85,
+      "c_eff": 421.88,
+      "mu": 1.0,
+      "splash_factor": 1.4
+    },
+    "details": {
+      "base_damage": 35,
+      "attacks": 1,
+      "period": 3.0,
+      "range": 13,
+      "life": 200,
+      "armor": 1,
+      "shields": 0,
+      "minerals": 150,
+      "vespene": 125,
+      "supply": 3
+    },
+    "display_name": "攻城坦克 (对重甲)"
+  }
+]

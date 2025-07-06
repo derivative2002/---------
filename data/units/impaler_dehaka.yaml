@@ -1,0 +1,75 @@
+# 穿刺者 - 德哈卡
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+unit:
+  # 基础标识
+  id: "ImpalerDehaka"
+  name: "穿刺者"
+  name_en: "Impaler"
+  commander: "Dehaka"
+  race: "PZrg"  # Primal Zerg
+  
+  # 基础属性
+  stats:
+    life: 200
+    armor: 1
+    shields: 0
+    energy: 0
+    life_regen: 0.2734  # 德哈卡单位有生命回复
+    
+  # 成本信息
+  cost:
+    minerals: 200
+    vespene: 100
+    supply: 3
+    build_time: 30  # 估算值
+    
+  # 移动属性（潜地后）
+  movement:
+    speed: 0  # 潜地后不能移动
+    acceleration: 1000  # 无意义
+    turning_rate: 999.8437
+    
+  # 物理属性
+  physics:
+    radius: 0.75
+    sight: 9
+    height: 0  # 潜地
+    
+  # 单位类型和属性
+  plane: "Ground"
+  attributes:
+    - "Armored"
+    - "Biological"
+    - "Buried"  # 潜地状态
+    
+  # 武器配置
+  weapons:
+    - mode: "burrowed"  # 潜地攻击
+      weapon_ref: "ImpalerDehakaWeapon"
+      is_default: true
+      
+  # 特殊能力
+  abilities:
+    - "Burrow"  # 潜地
+    - "Tenderize"  # 软化（特殊效果）
+    
+  # 模式切换
+  modes:
+    unburrowed:
+      can_move: true
+      can_attack: false
+    burrowed:
+      unit_id: "ImpalerDehakaBurrowed"
+      sight: 9
+      can_move: false
+      can_attack: true
+      weapons: ["ImpalerDehakaWeapon"]
+      
+  # 游戏内部数据
+  editor_categories:
+    - "ObjectType:Unit"
+    - "ObjectFamily:FactionPrimal"
+  subgroup_priority: 18
+  attack_target_priority: 20 

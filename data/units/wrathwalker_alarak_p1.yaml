@@ -1,0 +1,70 @@
+# 灵魂巧匠天罚行者 - 阿拉纳克P1威望
+# 数据来源：游戏实测数据
+# 最后更新：2025-01-15
+
+unit:
+  # 基础标识
+  id: "ColossusTaldarim_SoulArtificer"
+  name: "灵魂巧匠天罚行者"
+  name_en: "Soul Artificer Wrathwalker"
+  commander: "Alarak_P1"
+  race: "Prot"
+  
+  # 基础属性（与普通天罚行者相同）
+  stats:
+    life: 350
+    armor: 1
+    shields: 150
+    energy: 0
+    
+  # 成本信息（包含10个死徒的成本）
+  cost:
+    minerals: 1050  # 300（天罚）+ 750（10个死徒，每个75矿）
+    vespene: 200    # 只有天罚需要气体
+    supply: 6
+    build_time: 42.86
+    # 额外成本说明
+    additional_cost: "10个死徒献祭"
+    
+  # 移动属性（与普通天罚相同）
+  movement:
+    speed: 2.25
+    acceleration: 2.25
+    turning_rate: 999.0
+    
+  # 物理属性（与普通天罚相同）
+  physics:
+    radius: 1.5
+    sight: 10
+    height: 4.0
+    
+  # 单位类型和属性
+  plane: "Ground"
+  attributes:
+    - "Armored"
+    - "Mechanical"
+    - "Massive"
+    
+  # 武器配置
+  weapons:
+    - mode: "base_soul"  # 灵魂巧匠基础版本
+      weapon_ref: "ColossusTaldarim_SoulArtificer_Base"
+      is_default: true
+    - mode: "upgraded_soul"  # 灵魂巧匠+快速能量循环
+      weapon_ref: "ColossusTaldarim_SoulArtificer_Fast"
+      requires_upgrade: "AlarakColossusChargedBlastChargeTime"
+      
+  # 特殊能力
+  abilities:
+    - "CliffWalk"  # 爬悬崖
+    - "SoulCollection"  # 灵魂收集（P1特有）
+    
+  # 游戏内部数据
+  editor_categories:
+    - "ObjectType:Unit"
+    - "ObjectFamily:FactionTaldarim"
+  subgroup_priority: 109
+  level: 11
+  
+  # 特殊说明
+  notes: "满层灵魂（10层）提供+100%攻速和+100%伤害" 

@@ -1,0 +1,122 @@
+{
+  "unit_details": {
+    "name": "MK Ⅱ 洛基（雷神）",
+    "id": "ThorMk2",
+    "commander": "莫比斯军团",
+    "cost": {
+      "minerals": 450,
+      "vespene": 300,
+      "supply": 6
+    },
+    "stats": {
+      "life": 300,
+      "armor": 5,
+      "shields": 170
+    },
+    "weapon": {
+      "name": "磁轨导弹发射器",
+      "damage": 45,
+      "attacks": 4,
+      "period": 2.0,
+      "range": 18.0,
+      "bonus_vs_armored": 15
+    }
+  },
+  "cev_results": {
+    "standard": {
+      "cev": 150.42,
+      "cev_per_pop": 25.07,
+      "components": {
+        "dps_eff": 103.5,
+        "psi": 0.85,
+        "ehp": 688.0,
+        "omega": 0.6,
+        "f_range": 4.54,
+        "c_eff": 1095.0,
+        "mu": 1.0,
+        "splash_factor": 1.0
+      },
+      "details": {
+        "base_damage": 45,
+        "attacks": 4,
+        "period": 2.0,
+        "range": 18.0,
+        "life": 300,
+        "armor": 5,
+        "shields": 170,
+        "minerals": 450,
+        "vespene": 300,
+        "supply": 6,
+        "population_tax": 75.0,
+        "mineral_gas_ratio": 1.9
+      }
+    },
+    "vs_armored": {
+      "cev": 162.96,
+      "cev_per_pop": 27.16,
+      "components": {
+        "dps_eff": 112.12,
+        "psi": 0.85,
+        "ehp": 688.0,
+        "omega": 0.6,
+        "f_range": 4.54,
+        "c_eff": 1095.0,
+        "mu": 1.0,
+        "splash_factor": 1.0
+      },
+      "details": {
+        "base_damage": 45,
+        "attacks": 4,
+        "period": 2.0,
+        "range": 18.0,
+        "life": 300,
+        "armor": 5,
+        "shields": 170,
+        "minerals": 450,
+        "vespene": 300,
+        "supply": 6,
+        "population_tax": 75.0,
+        "mineral_gas_ratio": 1.9
+      }
+    }
+  },
+  "comparisons": {
+    "elite_units": {
+      "vs_siege_tank": {
+        "cev_ratio": 6.40566037735849,
+        "cev_per_pop_ratio": 3.202830188679245
+      },
+      "vs_wrathwalker": {
+        "cev_ratio": 1.1978021978021978,
+        "cev_per_pop_ratio": 1.1978021978021978
+      },
+      "vs_liberator": {
+        "cev_ratio": 1.1228724992535084,
+        "cev_per_pop_ratio": 0.561478163493841
+      }
+    }
+  },
+  "economic_details": {
+    "base_cost": {
+      "minerals": 450,
+      "vespene": 300
+    },
+    "population_tax": 75.0,
+    "mineral_gas_ratio": 1.9,
+    "effective_cost": 1095.0
+  },
+  "reference_units": {
+    "siege_tank": {
+      "cev": 25.44,
+      "cev_per_pop": 8.48
+    },
+    "wrathwalker": {
+      "cev": 125.58,
+      "cev_per_pop": 20.93
+    },
+    "liberator": {
+      "cev": 133.96,
+      "cev_per_pop": 44.65
+    }
+  }
+}

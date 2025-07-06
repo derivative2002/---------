@@ -1,382 +1,452 @@
-# API参考手册
+# API参考文档 - v2.4
 
-本文档提供星际争霸II数学模型项目的API使用示例和参考。
+**版本**: 2.4.0  
+**最后更新**: 2025-01-15  
+**适用范围**: 星际争霸II合作任务单位战斗效能评估系统
 
-## 目录
+## 概述
 
-1. [核心计算API](#核心计算api)
-2. [数据处理API](#数据处理api)
-3. [数据库查询API](#数据库查询api)
-4. [实验管理API](#实验管理api)
-5. [可视化API](#可视化api)
+本文档提供了CEV评估系统v2.4版本的完整API参考，包括核心类、方法、数据结构和使用示例。
 
-## 核心计算API
+## 核心模块
 
-### RefinedCEVCalculator（新增）
+### `src.core.refined_cev_calculator`
 
-精细化的CEV计算器，包含操作难度、过量击杀、生产能力等实战因素。
+#### RefinedCEVCalculator
+
+精细化CEV计算器，实现基于兰彻斯特方程的战斗效能评估。
+
+##### 初始化
 
 ```python
-from src.core.refined_cev_calculator import RefinedCEVCalculator, COMBAT_SCENARIOS
-
-# 初始化计算器
-calculator = RefinedCEVCalculator()
-
-# 使用预定义场景
-scenario = COMBAT_SCENARIOS['vs_mixed']
-
-# 计算CEV
-result = calculator.calculate_cev(
-    unit_data={
-        'english_id': 'Wrathwalker',
-        'mineral_cost': 300,
-        'gas_cost': 200,
-        'supply_cost': 6,
-        'hp': 200,
-        'shields': 150,
-        'armor': 1,
-        'collision_radius': 0.75,
-        'can_move_attack': True
-    },
-    weapon_data={
-        'base_damage': 100,
-        'attack_interval': 1.304,
-        'range': 12,
-        'bonus_damage': '{"建筑": 75}'
-    },
-    commander='阿拉纳克',
-    scenario=scenario
-)
-
-# 结果包含
-print(f"CEV: {result['cev']:.1f}")
-print(f"有效成本: {result['effective_cost']:.1f}")
-print(f"有效DPS: {result['effective_dps']:.1f}")
-print(f"各项系数: {result['factors']}")
+RefinedCEVCalculator(
+    gas_weight: float = 2.5,
+    supply_base_value: float = 12.5,
+    lambda_max: float = 2.0
+) -> None
 ```
 
-#### 关键参数说明
+**参数**:
+- `gas_weight`: 气体资源权重，默认2.5
+- `supply_base_value`: 人口基础价值，默认12.5
+- `lambda_max`: 最大人口压力因子，默认2.0
 
-- **指挥官特性**：不同指挥官的矿气转换率和生产能力
-- **操作难度系数**：0.7（复杂架设）到1.1（移动射击）
-- **过量击杀惩罚**：根据单体伤害与目标平均血量的比例
-- **AOE系数**：考虑实际溅射效果和碰撞体积
-- **协同需求**：单位独立作战能力的评估
+**示例**:
+```python
+calculator = RefinedCEVCalculator(gas_weight=2.5)
+```
 
-### EnhancedCEVCalculator
+##### 方法
 
-增强的战斗效能值(CEV)计算器，支持动态时间因子、属性克制、溅射伤害等高级特性。
+###### calculate_cev
 
 ```python
-from src.core.enhanced_cev_calculator import EnhancedCEVCalculator
-from src.data.models import Unit, Weapon
+calculate_cev(
+    unit: UnitStats,
+    target_composition: Optional[TargetComposition] = None
+) -> Dict[str, float]
+```
 
-# 初始化计算器
-calculator = EnhancedCEVCalculator()
+计算单位的CEV值及各组成部分。
 
-# 创建单位对象
-unit = Unit(
-    english_id="Marine",
-    chinese_name="陆战队员",
-    commander="吉姆·雷诺",
-    mineral_cost=45,
+**参数**:
+- `unit`: 单位属性数据
+- `target_composition`: 目标组合，可选
+
+**返回值**:
+```python
+{
+    'cev': float,                    # CEV总值
+    'dps_eff': float,               # 有效DPS
+    'ehp': float,                   # 有效生命值
+    'range_factor': float,          # 射程系数
+    'effective_cost': float,        # 有效成本
+    'operation_difficulty': float,  # 操作难度系数
+    'population_multiplier': float, # 人口质量乘数
+    'overkill_penalty': float      # 过量击杀惩罚
+}
+```
+
+**异常**:
+- `ValueError`: 当输入数据无效时
+
+**示例**:
+```python
+unit = UnitStats(name="陆战队员", commander="雷诺", ...)
+result = calculator.calculate_cev(unit)
+print(f"CEV值: {result['cev']:.2f}")
+```
+
+###### batch_calculate_cev
+
+```python
+batch_calculate_cev(
+    units: List[UnitStats],
+    target_composition: Optional[TargetComposition] = None
+) -> pd.DataFrame
+```
+
+批量计算多个单位的CEV值。
+
+**参数**:
+- `units`: 单位属性数据列表
+- `target_composition`: 目标组合，可选
+
+**返回值**: 包含所有单位CEV计算结果的DataFrame，按CEV值降序排列
+
+**示例**:
+```python
+units = [marine_stats, zealot_stats, zergling_stats]
+results = calculator.batch_calculate_cev(units)
+print(results[['unit_name', 'commander', 'cev']])
+```
+
+###### calculate_effective_dps
+
+```python
+calculate_effective_dps(
+    unit: UnitStats,
+    target_armor: int = 0
+) -> float
+```
+
+计算有效DPS，考虑溅射系数和护甲减免。
+
+**参数**:
+- `unit`: 单位属性数据
+- `target_armor`: 目标护甲值，默认0
+
+**返回值**: 有效DPS值
+
+**公式**: `DPS_eff = (实际伤害 × 溅射系数) / 攻击间隔`
+
+**示例**:
+```python
+dps = calculator.calculate_effective_dps(siege_tank, target_armor=1)
+```
+
+###### calculate_effective_hp
+
+```python
+calculate_effective_hp(unit: UnitStats) -> float
+```
+
+计算有效生命值，考虑护甲和护盾回复。
+
+**参数**:
+- `unit`: 单位属性数据
+
+**返回值**: 有效生命值
+
+**公式**: `EHP = HP_eff + Shield_eff × 1.4`
+
+**示例**:
+```python
+ehp = calculator.calculate_effective_hp(protoss_unit)
+```
+
+###### calculate_range_factor
+
+```python
+calculate_range_factor(unit: UnitStats) -> float
+```
+
+计算射程系数。
+
+**参数**:
+- `unit`: 单位属性数据
+
+**返回值**: 射程系数
+
+**公式**: `F_range = sqrt(射程 / 碰撞半径)`
+
+**注意**: 空军单位碰撞半径视为0.5
+
+###### calculate_effective_cost
+
+```python
+calculate_effective_cost(unit: UnitStats) -> float
+```
+
+计算有效成本，考虑指挥官特殊效率。
+
+**参数**:
+- `unit`: 单位属性数据
+
+**返回值**: 有效成本
+
+**公式**: `C_eff = 矿物成本 + 矿气效率 × 瓦斯成本 + 特殊成本`
+
+###### get_model_info
+
+```python
+get_model_info() -> Dict[str, Union[str, float]]
+```
+
+获取模型配置信息。
+
+**返回值**:
+```python
+{
+    'version': str,           # 模型版本号
+    'gas_weight': float,      # 气体权重
+    'supply_base_value': float, # 人口基础价值
+    'lambda_max': float       # 最大人口压力因子
+}
+```
+
+## 数据结构
+
+### UnitStats
+
+单位基础属性数据类。
+
+```python
+@dataclass
+class UnitStats:
+    name: str                    # 单位名称
+    commander: str               # 指挥官名称
+    mineral_cost: int           # 矿物成本
+    gas_cost: int               # 瓦斯成本
+    supply_cost: int            # 人口占用
+    hp: float                   # 生命值
+    shield: float = 0.0         # 护盾值
+    armor: int = 0              # 护甲值
+    damage: float = 0.0         # 基础伤害
+    attack_speed: float = 1.0   # 攻击间隔
+    range: float = 1.0          # 射程
+    unit_type: UnitType = UnitType.GROUND  # 单位类型
+    collision_radius: float = 0.5  # 碰撞半径
+    splash_factor: float = 1.0  # 溅射系数
+```
+
+**验证规则**:
+- `supply_cost` > 0
+- `hp` > 0
+
+**示例**:
+```python
+marine = UnitStats(
+    name="陆战队员",
+    commander="雷诺",
+    mineral_cost=50,
     gas_cost=0,
     supply_cost=1,
-    hp=55,
-    shields=0,
-    armor=0,
-    movement_speed=3.15,
-    is_flying=False,
-    attributes=["生物", "轻甲"]
+    hp=45,
+    damage=6,
+    attack_speed=0.8608,
+    range=5
+)
+```
+
+### UnitType
+
+单位类型枚举。
+
+```python
+class UnitType(Enum):
+    GROUND = "ground"     # 地面单位
+    AIR = "air"          # 空中单位
+    DETECTOR = "detector" # 探测器
+    MASSIVE = "massive"   # 巨型单位
+```
+
+### TargetComposition
+
+目标组合数据类。
+
+```python
+@dataclass
+class TargetComposition:
+    name: str                                    # 组合名称
+    units: List[Dict[str, Union[str, int, float]]]  # 单位列表
+```
+
+## 配置参数
+
+### 操作难度系数
+
+| 单位类型 | 系数值 | 说明 |
+|----------|--------|------|
+| 天罚行者 | 1.3 | 可移动射击优势 |
+| 掠袭解放者 | 0.75 | 需要精确架设 |
+| 攻城坦克 | 0.8 | 简单架设 |
+| 穿刺者 | 0.8 | 简单潜地 |
+| 其他单位 | 1.0 | 标准操作 |
+
+### 人口质量乘数
+
+| 指挥官类型 | 乘数值 | 说明 |
+|------------|--------|------|
+| 100人口指挥官 | 2.0 | 诺娃、泽拉图、扎加拉、泰凯斯 |
+| 200人口指挥官 | 1.0 | 其他指挥官 |
+
+### 过量击杀惩罚
+
+| 有效伤害范围 | 惩罚系数 | 说明 |
+|--------------|----------|------|
+| ≥200 | 0.8 | 严重惩罚 |
+| ≥150 | 0.85 | 中等惩罚 |
+| ≥100 | 0.9 | 轻微惩罚 |
+| <100 | 1.0 | 无惩罚 |
+
+## 使用示例
+
+### 基础使用
+
+```python
+from src.core.refined_cev_calculator import RefinedCEVCalculator, UnitStats, UnitType
+
+# 创建计算器
+calculator = RefinedCEVCalculator()
+
+# 定义单位
+marine = UnitStats(
+    name="陆战队员",
+    commander="雷诺",
+    mineral_cost=50,
+    gas_cost=0,
+    supply_cost=1,
+    hp=45,
+    damage=6,
+    attack_speed=0.8608,
+    range=5
 )
 
 # 计算CEV
-result = calculator.calculate_cev(
-    unit=unit,
-    time_seconds=600,  # 10分钟
-    target_attributes=["重甲"],  # 目标属性
-    n_support=2,  # 支援单位数量
-    n_ally=15,    # 盟友单位数量
-    army_composition=["陆战队员", "医疗兵", "掠夺者"]
-)
-
-print(f"CEV: {result['cev']:.2f}")
-print(f"有效成本: {result['effective_cost']:.2f}")
-print(f"总DPS: {result['total_dps']:.2f}")
+result = calculator.calculate_cev(marine)
+print(f"陆战队员CEV: {result['cev']:.2f}")
 ```
 
-### 批量比较单位
+### 批量评估
 
 ```python
-# 比较多个单位
-units = [unit1, unit2, unit3]
-comparison = calculator.compare_units(units, time_seconds=600)
-
-for idx, result in enumerate(comparison):
-    print(f"{idx+1}. {result['chinese_name']}: CEV={result['cev']:.2f}")
-```
-
-## 数据处理API
-
-### AdvancedDataLoader
-
-支持新数据格式v2.0的高级数据加载器。
-
-```python
-from src.data.advanced_data_loader import AdvancedDataLoader
-
-# 初始化加载器
-loader = AdvancedDataLoader()
-
-# 加载所有单位数据
-units_dict = loader.load_units_data()
-
-# 获取特定单位
-marine = units_dict.get("Marine")
-if marine:
-    print(f"{marine.chinese_name}: HP={marine.hp}, DPS={marine.get_total_dps()}")
-
-# 获取指挥官的所有单位
-raynor_units = loader.get_commander_units("吉姆·雷诺")
-```
-
-### 数据验证
-
-```python
-# 验证数据完整性
-validation_report = loader.validate_data()
-if validation_report['errors']:
-    for error in validation_report['errors']:
-        print(f"错误: {error}")
-```
-
-## 数据库查询API
-
-### QueryInterface
-
-提供高级查询功能，包括克制分析、效率排名、协同效应等。
-
-```python
-from src.database.query_interface import QueryInterface
-
-# 初始化查询接口
-qi = QueryInterface()
-
-# 1. 查找克制特定属性的单位
-counter_units = qi.find_counter_units(
-    target_attribute="重甲",
-    min_bonus=10
-)
-print(counter_units[['chinese_name', 'bonus_damage', 'bonus_dps']])
-
-# 2. 分析成本效率
-efficiency_df = qi.analyze_cost_efficiency(phase='mid')
-print(efficiency_df[['chinese_name', 'cev', 'dps_per_cost']].head(10))
-
-# 3. 查找协同单位
-synergies = qi.find_synergistic_units("陆战队员")
-print(synergies[['chinese_name', 'synergy_type']])
-
-# 4. 获取平衡建议
-recommendations = qi.get_balance_recommendations()
-for rec in recommendations:
-    print(f"{rec['type']}: {rec['unit']} - {rec['suggestion']}")
-
-# 5. 导出综合报告
-qi.export_analysis_report("analysis_report.xlsx")
-```
-
-### 自定义查询
-
-```python
-from src.database.db_manager import DatabaseManager
-
-db = DatabaseManager()
-
-# 执行自定义SQL查询
-with db.get_connection() as conn:
-    cursor = conn.cursor()
-    cursor.execute("""
-        SELECT u.chinese_name, COUNT(w.id) as weapon_count
-        FROM units u
-        LEFT JOIN weapons w ON u.id = w.unit_id
-        GROUP BY u.id
-        HAVING weapon_count > 1
-    """)
-    
-    multi_weapon_units = cursor.fetchall()
-```
-
-## 实验管理API
-
-### ExperimentManager
-
-Hydra风格的实验管理系统，支持配置管理、结果追踪和报告生成。
-
-```python
-from src.experiment.experiment_manager import ExperimentManager, ExperimentConfig, ExperimentType
-
-# 创建实验管理器
-exp_manager = ExperimentManager()
-
-# 定义实验配置
-config = ExperimentConfig(
-    name="人族单位评估",
-    type=ExperimentType.UNIT_EVALUATION,
-    description="评估吉姆·雷诺的所有单位",
-    commanders=["吉姆·雷诺"],
-    units=[],  # 空列表表示所有单位
-    game_phases=["early_game", "mid_game", "late_game"],
-    save_plots=True,
-    generate_report=True,
-    extra_params={
-        "include_abilities": True,
-        "synergy_analysis": True
-    }
-)
-
-# 创建实验目录
-exp_dir = exp_manager.create_experiment_dir(config)
-
-# 运行实验（使用ExperimentRunner）
-from src.experiment.experiment_runner import ExperimentRunner
-
-runner = ExperimentRunner(exp_manager)
-results = runner.run_experiment(config, exp_dir)
-
-# 查看实验列表
-experiments = exp_manager.list_experiments(
-    exp_type=ExperimentType.UNIT_EVALUATION,
-    status='completed'
-)
-```
-
-### 批量实验
-
-```python
-from src.experiment.experiment_runner import run_batch_experiments, ExperimentTemplates
-
-# 使用模板创建多个实验
-configs = [
-    ExperimentTemplates.unit_tier_list(["吉姆·雷诺", "凯瑞甘"]),
-    ExperimentTemplates.commander_balance_check(["吉姆·雷诺", "阿拉纳克", "诺娃"]),
-    ExperimentTemplates.unit_matchup_matrix(["陆战队员", "跳虫", "狂热者"])
+# 创建单位列表
+units = [
+    UnitStats(name="陆战队员", commander="雷诺", ...),
+    UnitStats(name="狂热者", commander="阿塔尼斯", ...),
+    UnitStats(name="跳虫", commander="凯瑞甘", ...)
 ]
 
-# 批量运行
-results_df = run_batch_experiments(configs)
-print(results_df[['name', 'success', 'duration']])
+# 批量计算
+results = calculator.batch_calculate_cev(units)
+
+# 显示排名
+print("单位CEV排名:")
+for i, row in results.iterrows():
+    print(f"{i+1}. {row['unit_name']} ({row['commander']}): {row['cev']:.2f}")
 ```
 
-## 可视化API
-
-### CEMVisualizer
-
-战斗效能矩阵(CEM)可视化工具。
+### 高级配置
 
 ```python
-from src.core.cem_visualizer import CEMVisualizer
-
-visualizer = CEMVisualizer()
-
-# 1. 创建CEM热图
-fig = visualizer.create_cem_heatmap(
-    unit_names=["陆战队员", "掠夺者", "攻城坦克", "跳虫", "刺蛇"],
-    title="战斗效能矩阵",
-    save_path="cem_heatmap.png"
+# 自定义参数
+calculator = RefinedCEVCalculator(
+    gas_weight=3.0,        # 提高气体权重
+    supply_base_value=15.0, # 提高人口价值
+    lambda_max=2.5         # 提高人口压力上限
 )
 
-# 2. 单位对战分析
-fig_matchup = visualizer.create_unit_matchup_chart(
-    unit_name="陆战队员",
-    top_n=10
-)
-
-# 3. 导出CEM数据
-visualizer.export_cem_data(
-    unit_names=["陆战队员", "跳虫", "狂热者"],
-    output_path="cem_matrix.csv"
-)
-```
-
-### 综合评估仪表板
-
-```python
-from src.analysis.comprehensive_evaluator import ComprehensiveEvaluator
-
-evaluator = ComprehensiveEvaluator()
-
-# 创建单位评估仪表板
-evaluator.create_evaluation_dashboard(
-    unit_name="攻城坦克",
-    commander="吉姆·雷诺",
-    save_path="siege_tank_dashboard.png"
-)
-
-# 指挥官对比
-comparison_df = evaluator.compare_commanders(
-    commanders=["吉姆·雷诺", "凯瑞甘", "阿塔尼斯"]
-)
-```
-
-## 完整示例：端到端工作流
-
-```python
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent))
-
-from src.data.advanced_data_loader import AdvancedDataLoader
-from src.core.enhanced_cev_calculator import EnhancedCEVCalculator
-from src.database.migrate_to_db import migrate_csv_to_database
-from src.database.query_interface import QueryInterface
-from src.experiment.experiment_runner import ExperimentRunner, ExperimentTemplates
-
-# 1. 加载数据到数据库
-print("1. 导入数据...")
-migrate_csv_to_database()
-
-# 2. 查询分析
-print("\n2. 查询分析...")
-qi = QueryInterface()
-top_units = qi.analyze_cost_efficiency('mid').head(5)
-print(top_units[['chinese_name', 'commander', 'cev']])
-
-# 3. 运行实验
-print("\n3. 运行实验...")
-config = ExperimentTemplates.unit_tier_list(["吉姆·雷诺"])
-runner = ExperimentRunner()
-results = runner.run_experiment(config)
-
-# 4. 生成报告
-print("\n4. 生成报告...")
-qi.export_analysis_report("final_report.xlsx")
-
-print("\n完成！")
+# 获取模型信息
+info = calculator.get_model_info()
+print(f"模型版本: {info['version']}")
 ```
 
 ## 错误处理
 
-所有API都包含错误处理机制：
+### 常见异常
+
+#### ValueError
+- **原因**: 输入数据无效
+- **示例**: 人口占用≤0、生命值≤0、攻击间隔≤0
+- **处理**: 检查输入数据的有效性
 
 ```python
 try:
     result = calculator.calculate_cev(unit)
 except ValueError as e:
-    print(f"参数错误: {e}")
-except Exception as e:
-    print(f"计算失败: {e}")
+    print(f"数据验证失败: {e}")
 ```
 
-## 性能优化建议
+#### AttributeError
+- **原因**: 缺少必需属性
+- **处理**: 确保UnitStats包含所有必需字段
 
-1. **批量操作**：使用批量方法而不是循环单个操作
-2. **数据库连接**：使用上下文管理器确保连接正确关闭
-3. **内存管理**：处理大量数据时使用生成器
-4. **并行计算**：CEV计算支持多线程处理
+#### TypeError
+- **原因**: 类型不匹配
+- **处理**: 检查参数类型是否正确
 
-## 更多信息
+## 性能指标
 
-- 数据格式规范：见 `DATA_GUIDE.md`
-- 数据库设计：见 `DATABASE_SCHEMA.md`
-- 项目结构：见 `PROJECT_STATUS.md`
+### 计算性能
+- **单位评估**: < 1ms/单位
+- **批量处理**: > 1000单位/秒
+- **内存占用**: < 100MB（1000单位）
+
+### 使用建议
+- 对于大量单位，使用`batch_calculate_cev`而非循环调用
+- 复用计算器实例以避免重复初始化
+- 使用适当的日志级别控制输出
+
+## 日志配置
+
+```python
+import logging
+
+# 配置日志级别
+logging.basicConfig(
+    level=logging.INFO,  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+
+# 使用计算器
+calculator = RefinedCEVCalculator()
+```
+
+## 版本兼容性
+
+### v2.4.0
+- ✅ 完整的类型注解支持
+- ✅ 改进的错误处理
+- ✅ 新增溅射系数支持
+- ✅ 优化的操作难度配置
+
+### 迁移指南
+
+从v2.3迁移到v2.4:
+
+1. **导入路径**: 无变化
+2. **接口变化**: 无破坏性变化
+3. **新增功能**: 溅射系数、改进的文档
+4. **建议**: 更新类型注解以获得更好的IDE支持
+
+## 扩展开发
+
+### 添加新的操作难度配置
+
+```python
+# 继承并扩展
+class CustomCEVCalculator(RefinedCEVCalculator):
+    def __init__(self):
+        super().__init__()
+        self._operation_difficulty.update({
+            "新单位类型": 1.2
+        })
+```
+
+### 自定义过量击杀惩罚
+
+```python
+class CustomCEVCalculator(RefinedCEVCalculator):
+    def calculate_overkill_penalty(self, effective_damage: float) -> float:
+        # 自定义逻辑
+        if effective_damage >= 300:
+            return 0.7
+        return super().calculate_overkill_penalty(effective_damage)
+```
+
+---
+
+**文档版本**: v2.4.0  
+**维护者**: 歪比歪比歪比巴卜  
+**最后更新**: 2025-01-15

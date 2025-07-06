@@ -1,0 +1,69 @@
+# 标准亚蒙部队组成 (Standard Amon Compositions)
+# 用于CEV计算的目标组成参考
+
+SAC-T:
+  name: "标准亚蒙组成-人族"
+  description: "典型的人族敌人组成"
+  units:
+    - name: "陆战队员"
+      proportion: 0.4
+      hp: 45
+      armor: 0
+    - name: "掠夺者"
+      proportion: 0.3
+      hp: 125
+      armor: 1
+    - name: "攻城坦克"
+      proportion: 0.2
+      hp: 160
+      armor: 1
+    - name: "维京战机"
+      proportion: 0.1
+      hp: 125
+      armor: 0
+
+SAC-Z:
+  name: "标准亚蒙组成-虫族"
+  description: "典型的虫族敌人组成"
+  units:
+    - name: "跳虫"
+      proportion: 0.5
+      hp: 35
+      armor: 0
+    - name: "刺蛇"
+      proportion: 0.2
+      hp: 80
+      armor: 1
+    - name: "蟑螂"
+      proportion: 0.2
+      hp: 145
+      armor: 1
+    - name: "飞龙"
+      proportion: 0.1
+      hp: 120
+      armor: 0
+
+SAC-P:
+  name: "标准亚蒙组成-神族"
+  description: "典型的神族敌人组成"
+  units:
+    - name: "狂热者"
+      proportion: 0.4
+      hp: 100
+      shield: 50
+      armor: 1
+    - name: "追猎者"
+      proportion: 0.3
+      hp: 80
+      shield: 80
+      armor: 1
+    - name: "不朽者"
+      proportion: 0.2
+      hp: 200
+      shield: 100
+      armor: 1
+    - name: "虚空辉光舰"
+      proportion: 0.1
+      hp: 150
+      shield: 100
+      armor: 0 

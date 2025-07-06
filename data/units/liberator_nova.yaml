@@ -1,0 +1,81 @@
+# 掠袭解放者 - 诺娃特种作战部队
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+unit:
+  # 基础标识
+  id: "Liberator_BlackOps"
+  name: "掠袭解放者"
+  name_en: "Raid Liberator"
+  commander: "Nova"
+  race: "Terr"
+  
+  # 基础属性
+  stats:
+    life: 450
+    armor: 1  # 诺娃单位通常有1点基础护甲
+    shields: 0
+    energy: 0
+    
+  # 成本信息
+  cost:
+    minerals: 375
+    vespene: 375
+    supply: 3
+    build_time: 60  # RepairTime in XML
+    
+  # 移动属性
+  movement:
+    speed: 3.375
+    acceleration: 3.5
+    turning_rate: 1499.9414
+    stationary_turning_rate: 1499.9414
+    
+  # 物理属性
+  physics:
+    radius: 0.75
+    separation_radius: 0.75
+    sight: 10
+    height: 3.75
+    vision_height: 4
+    
+  # 单位类型和属性
+  plane: "Air"
+  attributes:
+    - "Armored"
+    - "Mechanical"
+    
+  # 武器配置
+  weapons:
+    - mode: "AA"  # 对空模式
+      weapon_ref: "Liberator_BlackOpsMissileLaunchers"
+      is_default: true
+    - mode: "AG"  # 对地模式  
+      weapon_ref: "LiberatorAG_BlackOpsWeapon"
+      requires_morph: true
+      morph_ability: "Liberator_BlackOpsMorphtoAG"
+      
+  # 特殊能力
+  abilities:
+    - "VehicleAfterburners"  # 载具加力燃烧器
+    - "WarpableNova"  # 诺娃传送能力
+    
+  # 模式切换
+  modes:
+    AA:
+      unit_id: "Liberator_BlackOps"
+      sight: 10
+      can_move: true
+      weapons: ["Liberator_BlackOpsMissileLaunchers"]
+    AG:
+      unit_id: "LiberatorAG_BlackOps"
+      sight: 13
+      can_move: false  # 架设后不能移动
+      weapons: ["LiberatorAG_BlackOpsWeapon"]
+      
+  # 游戏内部数据
+  editor_categories:
+    - "ObjectType:Unit"
+    - "ObjectFamily:FactionCovertOps"
+  subgroup_priority: 118
+  attack_target_priority: 20 

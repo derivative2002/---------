@@ -1,0 +1,48 @@
+# 攻城坦克武器数据
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+weapons:
+  # 坦克模式
+  - id: "90mmCannons"
+    name: "90毫米火炮"
+    name_en: "90mm Cannons"
+    stats:
+      damage: 15
+      damage_type: "Normal"
+      attacks: 1
+      period: 1.04
+      range: 7
+      
+  # 攻城模式 - 震荡火炮
+  - id: "CrucioShockCannon"
+    name: "震荡火炮"
+    name_en: "Crucio Shock Cannon"
+    
+    # 武器属性
+    stats:
+      damage: 35
+      damage_type: "Splash"
+      attacks: 1
+      period: 3.0
+      range: 13
+      
+    # 攻击特性
+    properties:
+      splash_radius: 1.5  # 估算值
+      
+    # 属性加成
+    attribute_bonus:
+      Armored: 15  # 对重甲+15
+      
+    # 升级效果
+    upgrades:
+      MaelstromRounds:
+        description: "旋流弹，对主目标伤害+50"
+        bonus_damage_main_target: 50
+      
+    # 溅射伤害（来自Dummy效果）
+    splash_damage_info:
+      dummy_effect: "ArcliteShockCannonDummy"
+      base_splash_damage: 100
+      splash_decay: true 

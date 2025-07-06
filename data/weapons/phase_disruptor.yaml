@@ -1,0 +1,31 @@
+# 相位干扰器 - 龙骑士武器
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+weapon:
+  # 基础标识
+  id: "PhaseDisruptor"
+  name: "相位干扰器"
+  name_en: "Phase Disruptor"
+  
+  # 伤害属性
+  damage: 20
+  attacks: 1
+  period: 1.79  # 攻击间隔
+  
+  # 射程和范围
+  range: 6
+  minimum_range: 0
+  splash_radius: 0  # 单体攻击
+  
+  # 伤害加成
+  attribute_bonus:
+    Armored: 10  # 对重甲单位+10伤害
+    
+  # 武器效果
+  effect: "PhaseDisruptorDamage"
+  
+  # 游戏内部数据
+  editor_categories:
+    - "ObjectType:Weapon"
+  display_name: "Weapon/Name/PhaseDisruptor" 

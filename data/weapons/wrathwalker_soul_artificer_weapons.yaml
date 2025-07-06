@@ -1,0 +1,78 @@
+# 灵魂巧匠天罚行者武器数据
+# 数据来源：游戏实测数据
+# 最后更新：2025-01-15
+
+weapons:
+  # 灵魂巧匠基础武器（未升级快速能量循环）
+  - id: "ColossusTaldarim_SoulArtificer_Base"
+    name: "灵魂充能光束"
+    name_en: "Soul Charged Beam"
+    
+    # 目标类型
+    target_filters:
+      - "Ground"
+      - "Visible"
+    exclude_filters:
+      - "Missile"
+      - "Stasis"
+      - "Dead"
+      - "Hidden"
+      - "Invulnerable"
+      
+    # 武器属性（满层灵魂效果）
+    stats:
+      damage: 200  # 100基础 + 100%灵魂加成
+      damage_type: "Normal"
+      attacks: 1
+      period: 1.75  # 3.5 / 2 (灵魂攻速翻倍)
+      range: 11
+      damage_point: 0.2
+      
+    # 攻击特性
+    properties:
+      arc: 90
+      allowed_movement: "Moving"
+      splash_radius: 0
+      
+    # 属性加成
+    attribute_bonus:
+      Structure: 150  # 75基础 + 100%灵魂加成
+      
+  # 灵魂巧匠升级武器（升级快速能量循环）
+  - id: "ColossusTaldarim_SoulArtificer_Fast"
+    name: "灵魂快速充能光束"
+    name_en: "Soul Fast Charged Beam"
+    
+    # 目标类型
+    target_filters:
+      - "Ground"
+      - "Visible"
+    exclude_filters:
+      - "Missile"
+      - "Stasis"
+      - "Dead"
+      - "Hidden"
+      - "Invulnerable"
+      
+    # 武器属性（满层灵魂 + 快速能量循环）
+    stats:
+      damage: 200  # 100基础 + 100%灵魂加成
+      damage_type: "Normal"
+      attacks: 1
+      period: 1.25  # 2.5 / 2 (灵魂攻速翻倍)
+      range: 11
+      damage_point: 0.2
+      
+    # 攻击特性
+    properties:
+      arc: 90
+      allowed_movement: "Moving"
+      splash_radius: 0
+      
+    # 属性加成
+    attribute_bonus:
+      Structure: 150  # 75基础 + 100%灵魂加成
+      
+# 注：实际游戏中的精确攻速
+# 普通天罚 + 快速能量循环 + 15%精通：2.5 / 1.15 = 2.17秒
+# 灵魂巧匠 + 快速能量循环 + 15%精通：2.5 / 2 / 1.15 = 1.09秒 

@@ -1,0 +1,82 @@
+# 斯旺 - 机械专家
+# 最后更新：2025-01-15
+
+commander:
+  id: "Swann"
+  name: "斯旺"
+  name_en: "Swann"
+  race: "Terr"
+  faction: "Terran"
+  
+  # 基础属性
+  properties:
+    population_cap: 200
+    
+  # 经济特性
+  economy:
+    mineral_gas_ratio: 1.875  # 斯旺瓦斯更珍贵 (1200/640)
+    production_efficiency: 1.8  # 气矿骡加成
+    vespene_harvester_cost: 0  # 免费瓦斯采集器
+    
+  # 精通系统
+  masteries:
+    # 第一组
+    set1:
+      option1:
+        name: "激光钻机建造、升级和恢复时间"
+        max_level: 30
+      option2:
+        name: "战斗空投持续时间"
+        max_level: 30
+        
+    # 第二组
+    set2:
+      option1:
+        name: "激光钻机伤害"
+        max_level: 30
+      option2:
+        name: "机械单位生命值"
+        max_level: 30
+        bonus_per_level: 0.01  # 每级1%，满级30%
+        
+    # 第三组
+    set3:
+      option1:
+        name: "不朽协议恢复时间"
+        max_level: 30
+      option2:
+        name: "怨灵战机成本"
+        max_level: 30
+        
+  # 特殊科技
+  special_tech:
+    - "MaelstromRounds"  # 旋流弹
+    - "ImmortalityProtocol" # 不朽协议
+    
+  # 特殊单位
+  special_units:
+    - "SiegeTank"  # 攻城坦克
+    - "Thor"       # 雷神
+    - "Goliath"    # 歌利亚
+    - "Wraith"     # 怨灵战机
+    
+  # 面板技能
+  top_bar_abilities:
+    - "ConcentratedBeam"
+    - "PulseCannon"
+    - "CombatDrop"
+
+  # 指挥官特性
+  traits:
+    - "HasLaserDrill"
+    - "AdvancedMechanicalUnits"
+    
+  # 精通能力
+  mastery:
+    - id: "LaserDrill"
+      name: "激光钻机"
+    - id: "CombatDrop"
+      name: "战斗空投"
+    - id: "MechLife"
+      name: "机械单位生命值"
+      max_bonus: 0.30 

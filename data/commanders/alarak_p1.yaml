@@ -1,0 +1,89 @@
+# 阿拉纳克P1 - 灵魂巧匠威望
+# 最后更新：2025-01-15
+
+commander:
+  id: "Alarak_P1"
+  name: "阿拉纳克（灵魂巧匠）"
+  name_en: "Alarak (Soul Artificer)"
+  race: "Prot"
+  
+  # 基础属性（与标准阿拉纳克相同）
+  properties:
+    population_cap: 200
+    starting_minerals: 50
+    starting_vespene: 0
+    
+  # 经济特性
+  economy:
+    mineral_gas_ratio: 2.5  # 标准矿气比
+    production_efficiency: 1.0  # 标准生产效率
+    
+  # 精通系统（与标准阿拉纳克相同）
+  masteries:
+    # 第一组精通
+    set1:
+      option1:
+        name: "死亡舰队冷却时间"
+        max_level: 30
+        bonus_per_level: -2  # 每级减少2秒
+      option2:
+        name: "阿拉纳克攻击伤害"
+        max_level: 30
+        bonus_per_level: 0.03  # 每级3%
+        
+    # 第二组精通
+    set2:
+      option1:
+        name: "结构超载防御和护盾"
+        max_level: 30
+        bonus_per_level: 0.03  # 每级3%
+      option2:
+        name: "毁灭波范围"
+        max_level: 30
+        bonus_per_level: 0.02  # 每级2%
+        
+    # 第三组精通（关键）
+    set3:
+      option1:
+        name: "天罚行者攻击速度"
+        max_level: 30
+        bonus_per_level: 0.005  # 每级0.5%，满级15%
+        affects:
+          - "ColossusTaldarim"
+          - "ColossusTaldarim_SoulArtificer"  # 也影响灵魂巧匠版本
+        calculation: "multiplicative"
+      option2:
+        name: "机械单位生命和护盾"
+        max_level: 30
+        bonus_per_level: 0.01  # 每级1%
+        
+  # 威望特性
+  prestige:
+    id: "P1"
+    name: "灵魂巧匠"
+    description: "天罚行者和杀戮者可以收集灵魂，每层+10%攻速和伤害，最多10层"
+    effects:
+      - "天罚行者和杀戮者获得灵魂收集能力"
+      - "每个灵魂提供+10%攻击速度和+10%伤害"
+      - "最多可收集10个灵魂（+100%攻速和伤害）"
+      - "灵魂通过击杀敌人获得"
+      
+  # 特殊单位
+  special_units:
+    - "ColossusTaldarim_SoulArtificer"  # 灵魂巧匠天罚行者
+    - "SlayerTaldarim_SoulArtificer"    # 灵魂巧匠杀戮者
+    - "Supplicant"                       # 死徒
+    - "VanguardTaldarim"                 # 先锋
+    - "AscendantTaldarim"                # 升华者
+    
+  # 面板技能（与标准相同）
+  top_bar_abilities:
+    - name: "死亡舰队"
+      energy_cost: 0
+      cooldown: 360
+    - name: "结构超载"
+      energy_cost: 50
+      cooldown: 60
+    - name: "献祭"
+      energy_cost: 0
+      cooldown: 0  # 无冷却，消耗死徒 

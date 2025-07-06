@@ -1,170 +1,206 @@
 #!/usr/bin/env python3
 """
-星际争霸II单位评估系统主程序
-运行完整的评估流程
+v2.4 精英单位评估主程序
+用于评估六大精英单位的CEV值
 """
 
-import sys
+import logging
 from pathlib import Path
-sys.path.append(str(Path(__file__).parent))
-
-from src.analysis.comprehensive_evaluator import ComprehensiveEvaluator
-from src.core.cev_calculator import CEVCalculator, UnitParameters
-from src.core.cem_visualizer import CEMVisualizer
-from src.data.data_processor import DataProcessor
-import matplotlib.pyplot as plt
 import pandas as pd
+from typing import Dict, List, Any
+import json
+
+from src.data.yaml_loader import YAMLDataLoader
+from src.core.cev_calculator_v24 import CEVCalculatorV24, CalculationConfig
+
+
+def setup_logging():
+    """设置日志"""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+
+
+def create_calculation_config() -> CalculationConfig:
+    """创建计算配置"""
+    return CalculationConfig(
+        # 矿气转换率（默认值）
+        mineral_gas_ratio=2.5,
+        
+        # 溅射系数配置
+        splash_factors={
+            "Liberator_AA": 1.0,    # 对空模式无溅射
+            "Liberator_AG": 1.0,    # 对地模式也是单体
+            "SiegeTank": 1.4,       # 攻城坦克溅射加成
+            "Wrathwalker": 1.0,     # 天罚行者单体
+            "Impaler": 1.0,         # 穿刺者单体
+            "Dragoon": 1.0,         # 龙骑士单体
+            "default": 1.0
+        },
+        
+        # 操作难度系数
+        operation_factors={
+            "Wrathwalker": 1.3,          # 可移动射击
+            "ColossusTaldarim": 1.3,     # 天罚行者（内部ID）
+            "Liberator": 0.75,           # 需要架设
+            "Liberator_AG": 0.75,        # AG模式需要架设
+            "SiegeTank": 0.8,            # 简单架设
+            "Impaler": 0.8,              # 简单潜地
+            "Dragoon": 1.0,              # 标准操作
+            "default": 1.0
+        },
+        
+        # 过量击杀阈值 (伤害阈值, 惩罚系数)
+        overkill_thresholds=[
+            (200, 0.8),
+            (150, 0.85),
+            (100, 0.9),
+            (0, 1.0)
+        ],
+        
+        # 精通配置
+        mastery_config={
+            "Nova": {"attack_speed": 0.15},      # 15%攻速
+            "Alarak": {"attack_speed": 0.15},    # 15%攻速
+            "Swann": {"mech_life": 0.30},        # 30%机械生命值
+            "Dehaka": {},
+            "Artanis": {}
+        }
+    )
+
+
+def evaluate_elite_units(calculator: CEVCalculatorV24) -> List[Dict[str, Any]]:
+    """评估六大精英单位"""
+    results = []
+    
+    # 定义要评估的单位和场景
+    # (unit_id, weapon_mode, display_name, scenarios_to_run)
+    units_to_evaluate = [
+        ("Liberator_BlackOps", "AG", "掠袭解放者", ["standard"]),
+        ("ColossusTaldarim", "upgraded", "普通天罚行者(快充)", ["standard"]),
+        ("ColossusTaldarim", "base", "普通天罚行者(无升级)", ["standard"]),
+        ("ColossusTaldarim_SoulArtificer", None, "灵魂巧匠天罚行者", ["standard"]),
+        ("ImpalerDehaka", None, "穿刺者", ["standard", "vs_armored"]),
+        ("SiegeTank", "siege", "攻城坦克", ["standard", "vs_armored"]),
+        # 龙骑士待添加
+    ]
+    
+    for unit_id, weapon_mode, display_name_base, scenarios in units_to_evaluate:
+        for scenario in scenarios:
+            try:
+                # 计算CEV
+                result = calculator.calculate_cev(
+                    unit_id=unit_id,
+                    weapon_mode=weapon_mode,
+                    apply_mastery=True,
+                    scenario=scenario
+                )
+                
+                # 创建唯一的显示名称
+                display_name = display_name_base
+                if scenario != "standard":
+                    scenario_map = {"vs_armored": "对重甲", "vs_light": "对轻甲"}
+                    display_name += f" ({scenario_map.get(scenario, scenario)})"
+
+                result["display_name"] = display_name
+                results.append(result)
+                
+                # 打印结果
+                print(f"\n{display_name}:")
+                print(f"  CEV: {result['cev']}")
+                print(f"  CEV/Pop: {result['cev_per_pop']}")
+                print(f"  指挥官: {result['commander']}")
+                print(f"  场景: {result['scenario']}")
+                # print(f"  详细参数: {result['components']}")
+                
+            except Exception as e:
+                print(f"评估 {display_name_base} (场景: {scenario}) 时出错: {e}")
+            
+    return results
+
+
+def create_ranking_table(results: List[Dict[str, Any]]) -> pd.DataFrame:
+    """创建排名表"""
+    # 按CEV排序
+    sorted_results = sorted(results, key=lambda x: x['cev'], reverse=True)
+    
+    # 创建表格数据
+    table_data = []
+    for i, result in enumerate(sorted_results, 1):
+        table_data.append({
+            "排名": i,
+            "单位名称": result['display_name'],
+            "指挥官": result['commander'],
+            "场景": result['scenario'],
+            "资源效率(CEV)": result['cev'],
+            "人口效率(CEV/Pop)": result['cev_per_pop'],
+            "DPS_eff": result['components']['dps_eff'],
+            "EHP": result['components']['ehp'],
+        })
+    
+    return pd.DataFrame(table_data)
+
+
+def save_results(results: List[Dict[str, Any]], output_dir: Path):
+    """保存结果"""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 保存JSON格式
+    with open(output_dir / "v24_elite_units_results.json", "w", encoding="utf-8") as f:
+        json.dump(results, f, ensure_ascii=False, indent=2)
+    
+    # 创建并保存排名表
+    df = create_ranking_table(results)
+    df.to_csv(output_dir / "v24_elite_units_ranking.csv", index=False, encoding="utf-8")
+    
+    # 保存Markdown格式
+    with open(output_dir / "v24_elite_units_ranking.md", "w", encoding="utf-8") as f:
+        f.write("# v2.4 六大精英单位CEV排名\n\n")
+        f.write(df.to_markdown(index=False))
+        f.write("\n\n## 详细计算结果\n\n")
+        
+        for result in sorted(results, key=lambda x: x['cev'], reverse=True):
+            f.write(f"### {result['display_name']}\n")
+            f.write(f"- **CEV**: {result['cev']}\n")
+            f.write(f"- **CEV/Pop**: {result['cev_per_pop']}\n")
+            f.write(f"- **指挥官**: {result['commander']}\n")
+            f.write(f"- **计算参数**:\n")
+            for key, value in result['components'].items():
+                f.write(f"  - {key}: {value}\n")
+            f.write("\n")
 
 
 def main():
-    print("=== 星际争霸II单位评估系统 v2.1 ===\n")
+    """主函数"""
+    setup_logging()
     
-    # 初始化评估器
-    evaluator = ComprehensiveEvaluator()
-    data_processor = DataProcessor()
-    cem_visualizer = CEMVisualizer()
+    print("=== v2.4 精英单位CEV评估 ===\n")
     
-    # 1. 处理Excel数据
-    print("1. 正在加载和处理单位数据...")
-    units_data = data_processor.process_all_units()
-    print(f"   成功加载 {len(units_data)} 个单位数据\n")
+    # 加载数据
+    print("加载数据...")
+    loader = YAMLDataLoader()
+    loader.load_all()
     
-    # 2. 生成数据摘要
-    print("2. 数据统计摘要:")
-    summary = data_processor.get_unit_summary_stats(units_data)
-    print(f"   - 平均矿物成本: {summary['cost_stats']['avg_mineral']:.1f}")
-    print(f"   - 平均瓦斯成本: {summary['cost_stats']['avg_gas']:.1f}")
-    print(f"   - 平均DPS: {summary['combat_stats']['avg_dps']:.1f}")
-    print(f"   - 最高性价比单位: {summary['efficiency_stats']['best_dps_per_cost']}\n")
+    # 创建计算器
+    config = create_calculation_config()
+    calculator = CEVCalculatorV24(loader, config)
     
-    # 3. 导出处理后的数据
-    output_dir = Path("data/processed")
-    output_dir.mkdir(exist_ok=True, parents=True)
+    # 评估单位
+    print("\n开始评估...")
+    results = evaluate_elite_units(calculator)
     
-    print("3. 导出标准化数据...")
-    data_processor.export_to_csv(units_data, str(output_dir / "units_standardized.csv"))
-    data_processor.export_to_json(units_data, str(output_dir / "units_standardized.json"))
+    # 保存结果
+    output_dir = Path("output/v24_evaluation")
+    save_results(results, output_dir)
     
-    # 4. 创建示例CEV计算
-    print("\n4. 示例CEV计算:")
-    example_units = [
-        UnitParameters(
-            name="陆战队员",
-            commander="吉姆·雷诺",
-            mineral_cost=45,
-            gas_cost=0,
-            supply_cost=1,
-            base_dps=9.8,
-            hp=55,
-            armor=0,
-            range=5,
-            upgrades={"步兵武器": 3, "步兵装甲": 3}
-        ),
-        UnitParameters(
-            name="升格者",
-            commander="阿拉纳克",
-            mineral_cost=250,
-            gas_cost=150,
-            supply_cost=4,
-            base_dps=25,
-            hp=200,
-            shields=100,
-            range=7,
-            abilities=["心灵风暴", "牺牲"]
-        ),
-        UnitParameters(
-            name="攻城坦克",
-            commander="吉姆·雷诺",
-            mineral_cost=150,
-            gas_cost=125,
-            supply_cost=3,
-            base_dps=35,
-            hp=200,
-            armor=1,
-            range=13,
-            abilities=["攻城模式"]
-        )
-    ]
+    # 显示排名表
+    print("\n=== 最终排名 ===")
+    df = create_ranking_table(results)
+    print(df.to_string(index=False))
     
-    cev_calculator = CEVCalculator()
-    
-    # 不同游戏阶段的CEV比较
-    for phase, time_sec in [("早期", 180), ("中期", 600), ("后期", 1200)]:
-        print(f"\n   {phase}游戏 ({time_sec//60}分钟):")
-        results = cev_calculator.compare_units(example_units, time_seconds=time_sec)
-        for i, result in enumerate(results[:3]):
-            print(f"   {i+1}. {result['unit_name']}: CEV={result['cev']:.2f}, "
-                  f"成本={result['effective_cost']:.1f}")
-    
-    # 5. 创建CEM可视化
-    print("\n5. 生成战斗效能矩阵 (CEM)...")
-    
-    # 选择要显示的单位
-    display_units = [
-        "陆战队员", "掠夺者", "攻城坦克",
-        "跳虫", "刺蛇", "雷兽",
-        "狂热者", "追猎者", "不朽者"
-    ]
-    
-    # 创建并保存CEM热图
-    output_dir = Path("data/results")
-    output_dir.mkdir(exist_ok=True, parents=True)
-    
-    fig_cem = cem_visualizer.create_cem_heatmap(
-        display_units,
-        title="星际争霸II 单位战斗效能矩阵",
-        save_path=str(output_dir / "cem_heatmap.png")
-    )
-    print("   CEM热图已保存到: data/results/cem_heatmap.png")
-    
-    # 6. 单位对战分析
-    print("\n6. 生成单位对战分析...")
-    fig_matchup = cem_visualizer.create_unit_matchup_chart("陆战队员", top_n=8)
-    if fig_matchup:
-        fig_matchup.savefig(str(output_dir / "marine_matchup.png"), dpi=300, bbox_inches='tight')
-        print("   陆战队员对战分析已保存到: data/results/marine_matchup.png")
-    
-    # 7. 生成评估报告示例
-    print("\n7. 生成单位评估仪表板...")
-    
-    # 创建测试单位数据
-    test_unit_data = {
-        "name": "攻城坦克",
-        "commander": "吉姆·雷诺", 
-        "mineral_cost": 150,
-        "gas_cost": 125,
-        "supply_cost": 3,
-        "base_dps": 35,
-        "hp": 200,
-        "armor": 1,
-        "range": 13,
-        "speed": 2.25,
-        "abilities": ["攻城模式", "区域伤害"],
-        "upgrades": {"车辆武器": 3, "车辆装甲": 3}
-    }
-    
-    evaluator.create_evaluation_dashboard(
-        "攻城坦克", 
-        "吉姆·雷诺",
-        save_path=str(output_dir / "siege_tank_dashboard.png")
-    )
-    print("   攻城坦克评估仪表板已保存到: data/results/siege_tank_dashboard.png")
-    
-    # 8. 生成平衡性报告
-    print("\n8. 生成游戏平衡性报告...")
-    balance_report = evaluator.generate_balance_report(
-        save_path=str(output_dir / "balance_report.json")
-    )
-    print("   平衡性报告已保存到: data/results/balance_report.json")
-    
-    print("\n=== 评估完成！===")
-    print(f"所有结果已保存到 data/ 目录下")
-    print("- processed/: 标准化的单位数据")
-    print("- results/: 分析结果和可视化图表")
-    
-    # 显示所有图表
-    plt.show()
+    print(f"\n结果已保存到: {output_dir}")
 
 
 if __name__ == "__main__":
-    main()
+    main() 

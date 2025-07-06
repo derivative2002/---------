@@ -1,0 +1,92 @@
+# 德哈卡 - 原始虫群首领
+# 最后更新：2025-01-15
+
+commander:
+  id: "Dehaka"
+  name: "德哈卡"
+  name_en: "Dehaka"
+  race: "PZrg"
+  faction: "PrimalZerg"
+  
+  # 基础属性
+  properties:
+    population_cap: 200
+    starting_minerals: 50
+    starting_vespene: 0
+    
+  # 经济特性
+  mineral_gas_ratio: 2.5 # 德哈卡经济模式标准
+  no_supply_tax: true # 德哈卡通过孵化腔提供补给，无额外建筑成本
+  
+  # 指挥官特性
+  traits:
+    - "HeroUnit"
+    - "CanEvolveUnits"
+    
+  # 精通系统
+  masteries:
+    # 第一组精通
+    set1:
+      option1:
+        name: "德哈卡攻击速度"
+        max_level: 30
+        bonus_per_level: 0.01  # 每级1%
+      option2:
+        name: "德哈卡生命值"
+        max_level: 30
+        bonus_per_level: 0.01  # 每级1%
+        
+    # 第二组精通
+    set2:
+      option1:
+        name: "基因突变几率"
+        max_level: 30
+        bonus_per_level: 0.02  # 每级2%
+      option2:
+        name: "原始虫群冷却时间"
+        max_level: 30
+        bonus_per_level: -2  # 每级减少2秒
+        
+    # 第三组精通
+    set3:
+      option1:
+        name: "原始单位攻击速度"
+        max_level: 30
+        bonus_per_level: 0.01  # 每级1%
+      option2:
+        name: "德哈卡和其族群领袖的生命回复"
+        max_level: 30
+        bonus_per_level: 0.01  # 每级1%
+        
+  # 基因突变系统
+  gene_mutations:
+    - name: "Carapace"
+      description: "增加生命值"
+    - name: "AttackSpeed"
+      description: "增加攻击速度"
+    - name: "LifeLeech"
+      description: "攻击吸血"
+      
+  # 特殊单位
+  special_units:
+    - "ImpalerDehaka"  # 穿刺者
+    - "RoachDehaka"     # 蟑螂
+    - "HydraliskDehaka" # 刺蛇
+    - "TyrannozorDehaka"# 暴龙兽
+    
+  # 面板技能
+  top_bar_abilities:
+    - name: "召唤格里维格"
+    - name: "召唤穆尔瓦"
+    - name: "召唤达克朗"
+    - name: "原始虫群"
+
+  # 精通能力
+  mastery:
+    - id: "GeneMutation"
+      name: "基因突变几率"
+    - id: "PrimalPackLeaderCooldown"
+      name: "原始种群首领冷却"
+    - id: "UnitAttackSpeed"
+      name: "单位攻速"
+      max_bonus: 0.30 

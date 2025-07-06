@@ -1,0 +1,74 @@
+# Makefile for v2.4 Paper Compilation
+
+# --- 基本配置 ---
+# TeX编译器, 推荐使用xelatex以支持中文字体
+LATEXMK = latexmk -xelatex -interaction=nonstopmode -file-line-error
+PANDOC = pandoc
+
+# --- 文件定义 ---
+# 主TeX文件
+MAIN_TEX = v24_paper.tex
+# 主Markdown源文件
+MAIN_MD = v24_paper_draft.md
+# 参考文献数据库
+BIB_FILE = references.bib
+# PDF输出文件名
+OUTPUT_PDF = v24_paper.pdf
+
+# --- 核心编译指令 ---
+.PHONY: all clean cleanall pdf view
+
+# 默认指令 (编译PDF)
+all: pdf
+
+# 编译PDF文件
+pdf: $(MAIN_TEX) $(BIB_FILE)
+	@echo "开始编译PDF, 请稍候..."
+	$(LATEXMK) $(MAIN_TEX)
+	@echo "PDF编译完成: $(OUTPUT_PDF)"
+
+# --- 辅助指令 ---
+# 查看生成的PDF
+view: $(OUTPUT_PDF)
+	@echo "正在打开PDF文件..."
+	start $(OUTPUT_PDF) || open $(OUTPUT_PDF) || xdg-open $(OUTPUT_PDF) || echo "无法自动打开PDF，请手动查看"
+
+# 清理辅助文件
+clean:
+	@echo "清理编译过程中生成的临时文件..."
+	$(LATEXMK) -c
+	@rm -f *.run.xml *.bcf
+
+# 清理所有生成文件 (包括PDF)
+cleanall: clean
+	@echo "清理所有生成文件，包括PDF..."
+	@rm -f $(OUTPUT_PDF)
+
+# --- 文档转换 (从Markdown到LaTeX) ---
+.PHONY: md2tex
+
+# 将Markdown转换为LaTeX (需要手动整合)
+# 用法: make md2tex
+# 该指令会生成一个temp_converted.tex文件，包含了从Markdown转换的内容。
+# 用户需要手动将这部分内容复制粘贴到主TeX文件(v24_paper.tex)的合适位置。
+# 这样做是为了保留主TeX文件的复杂结构（如标题页、宏包设置等），同时利用Markdown的便捷性。
+md2tex: $(MAIN_MD)
+	@echo "从Markdown转换为LaTeX..."
+	$(PANDOC) -f markdown -t latex $(MAIN_MD) -o temp_converted.tex
+	@echo "转换完成，请手动整合到$(MAIN_TEX)"
+
+# --- 帮助信息 ---
+.PHONY: help
+
+# 显示帮助信息
+help:
+	@echo "Makefile for Compiling v2.4 Paper"
+	@echo ""
+	@echo "Usage:"
+	@echo "  make          - 编译生成PDF (同 make all 或 make pdf)"
+	@echo "  make view     - 编译并尝试打开PDF"
+	@echo "  make clean    - 清理临时文件 (.aux, .log, .bbl, etc.)"
+	@echo "  make cleanall - 清理所有生成文件，包括最终的PDF"
+	@echo "  make md2tex   - 将Markdown源文件转换为.tex格式，需手动整合"
+	@echo "  make help     - 显示此帮助信息"
+	@echo "" 

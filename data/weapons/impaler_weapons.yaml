@@ -1,0 +1,45 @@
+# 穿刺者武器数据
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+weapons:
+  - id: "ImpalerDehakaWeapon"
+    name: "穿刺棘刺"
+    name_en: "Impaler Spines"
+    
+    # 目标类型
+    target_filters:
+      - "Ground"
+      - "Visible"
+    exclude_filters:
+      - "Missile"
+      - "Stasis"
+      - "Dead"
+      - "Hidden"
+      - "Invulnerable"
+      
+    # 武器属性
+    stats:
+      damage: 40  # 基础伤害（来自XML）
+      damage_type: "Normal"
+      attacks: 1
+      period: 1.45
+      range: 11
+      
+    # 攻击特性
+    properties:
+      arc: 0  # 只能攻击前方
+      splash_radius: 0  # 单体攻击
+      
+    # 属性加成
+    attribute_bonus:
+      Armored: 20  # 对重甲+20伤害（总计60）
+      
+    # 特殊效果
+    special_effects:
+      - name: "Tenderize"
+        description: "使目标受到的伤害增加"
+        chance: 0  # 需要升级解锁
+      - name: "ArmorReduction"
+        value: 1
+        description: "每次攻击降低1点护甲" 

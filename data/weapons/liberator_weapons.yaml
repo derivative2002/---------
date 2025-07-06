@@ -1,0 +1,79 @@
+# 掠袭解放者武器数据
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+weapons:
+  # 对空武器 - 导弹发射器
+  - id: "Liberator_BlackOpsMissileLaunchers"
+    name: "震荡导弹发射器"
+    name_en: "Concord Missile Launchers"
+    
+    # 目标类型
+    target_filters:
+      - "Air"
+      - "Visible"
+    exclude_filters:
+      - "Missile"
+      - "Stasis"
+      - "Dead"
+      - "Hidden"
+      - "Invulnerable"
+      
+    # 武器属性
+    stats:
+      damage: 13  # 单发13伤害（来自CEffectDamage XML）
+      damage_type: "Explosive"  # 爆炸伤害
+      attacks: 2  # DisplayAttackCount
+      period: 1.8
+      range: 9
+      min_scan_range: 9.5
+      
+    # 攻击特性
+    properties:
+      allowed_movement: "Slowing"
+      arc: 0  # 只能攻击前方
+      splash_radius: 1.5  # AOE半径
+      splash_damage: [1.0]  # 全额溅射伤害
+      
+    # 效果链接
+    effect: "Liberator_BlackOpsMissileBurstPersistent"
+    display_effect: "Liberator_BlackOpsMissileDamage"
+    
+  # 对地武器 - 解放者AG武器
+  - id: "LiberatorAG_BlackOpsWeapon"
+    name: "解放者AG武器"
+    name_en: "Liberator AG Weapon"
+    
+    # 目标类型
+    target_filters:
+      - "Ground"
+      - "Visible"
+    exclude_filters:
+      - "Structure"
+      - "Missile"
+      - "Stasis"
+      - "Dead"
+      - "Hidden"
+      - "Invulnerable"
+      
+    # 武器属性
+    stats:
+      damage: 125  # AG模式单体高伤害（来自CEffectDamage XML）
+      damage_type: "Normal"  # 普通伤害
+      attacks: 1
+      period: 1.6
+      range: 13
+      damage_point: 0.125  # 攻击前摇
+      
+    # 攻击特性
+    properties:
+      arc: 360  # 可以360度攻击
+      splash_radius: 0  # 单体攻击
+      
+    # 效果链接
+    effect: "LiberatorAG_BlackOpsMissileLMSet"
+    display_effect: "LiberatorAG_BlackOpsDamage"
+    
+# 武器升级数据（如果有）
+upgrades:
+  # TODO: 添加武器升级数据 

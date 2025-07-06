@@ -1,0 +1,65 @@
+# 天罚行者 - 阿拉纳克
+# 数据来源：StarCraft II Editor XML (ColossusTaldarim)
+# 最后更新：2025-01-15
+
+unit:
+  # 基础标识
+  id: "ColossusTaldarim"
+  name: "天罚行者"
+  name_en: "Wrathwalker"
+  commander: "Alarak"
+  race: "Prot"
+  
+  # 基础属性
+  stats:
+    life: 350  # 标准巨像生命值
+    armor: 1   # 标准巨像护甲
+    shields: 150  # 标准巨像护盾
+    energy: 0
+    
+  # 成本信息
+  cost:
+    minerals: 300
+    vespene: 200
+    supply: 6
+    build_time: 42.86  # RepairTime in XML
+    
+  # 移动属性
+  movement:
+    speed: 2.25  # 标准巨像移动速度
+    acceleration: 2.25
+    turning_rate: 999.0  # 巨像转向很快
+    
+  # 物理属性
+  physics:
+    radius: 1.5  # 巨像碰撞半径
+    sight: 10
+    height: 4.0  # 巨像很高
+    
+  # 单位类型和属性
+  plane: "Ground"
+  attributes:
+    - "Armored"
+    - "Mechanical"
+    - "Massive"
+    
+  # 武器配置
+  weapons:
+    - mode: "base"  # 未升级状态
+      weapon_ref: "ColossusTaldarimChargedBeam"
+      is_default: true
+    - mode: "upgraded"  # 升级快速能量循环后
+      weapon_ref: "ColossusTaldarimChargedBeamFast"
+      requires_upgrade: "AlarakColossusChargedBlastChargeTime"
+      
+  # 特殊能力
+  abilities:
+    - "CliffWalk"  # 爬悬崖
+    - "Sacrifice"  # 献祭（关键能力）
+    
+  # 游戏内部数据
+  editor_categories:
+    - "ObjectType:Unit"
+    - "ObjectFamily:FactionTaldarim"
+  subgroup_priority: 109
+  level: 11 

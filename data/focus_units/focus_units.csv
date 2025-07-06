@@ -1,6 +1,0 @@
-﻿english_id,chinese_name,base_unit,commander,mineral_cost,gas_cost,supply_cost,hp,shields,armor,collision_radius,movement_speed,is_flying,attributes,commander_level,mastery_bonuses
-AlarakWrathwalker,天罚行者,Wrathwalker,阿拉纳克,300,200,6,200,150,1,1.0,2.0,FALSE,"重甲,机械,巨型",90,"相位炮伤害+15, 震荡波冷却-30%, 生命值+25%"
-NovaRaidLiberator,掠袭解放者,RaidLiberator,诺娃,375,375,3,450,0,0,0.75,3.375,TRUE,"重甲,机械",90,"掠袭炮伤害+25, 隐形持续时间+50%, 移动速度+20%"
-DehakaImpaler,穿刺者,Impaler,德哈卡,100,150,4,160,0,1,0.75,2.25,FALSE,"重甲,生物",90,"穿刺棘刺伤害+20, 射程+2, 突变加成持续时间+100%"
-ArtanisDragoon,龙骑士,Dragoon,阿塔尼斯,125,50,2,120,80,1,0.75,2.9492,FALSE,"重甲,机械",90,"相位分裂炮伤害+8, 护盾+40, 护盾回复速度+50%"
-SwannSiegeTank,攻城坦克,SiegeTank,斯旺,150,125,3,160,0,1,1.0,2.25,FALSE,"重甲,机械",90,"震荡炮伤害+20, 射程+2, 攻城模式切换速度+100%"

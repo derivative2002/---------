@@ -1,0 +1,75 @@
+# 天罚行者武器数据
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+weapons:
+  # 基础武器 - 充能光束（未升级）
+  - id: "ColossusTaldarimChargedBeam"
+    name: "充能光束"
+    name_en: "Charged Beam"
+    
+    # 目标类型
+    target_filters:
+      - "Ground"
+      - "Visible"
+    exclude_filters:
+      - "Missile"
+      - "Stasis"
+      - "Dead"
+      - "Hidden"
+      - "Invulnerable"
+      
+    # 武器属性
+    stats:
+      damage: 100  # 基础伤害
+      damage_type: "Normal"
+      attacks: 1
+      period: 3.5  # 未升级时更慢的攻击速度
+      range: 11
+      damage_point: 0.2
+      
+    # 攻击特性
+    properties:
+      arc: 90
+      allowed_movement: "Moving"
+      splash_radius: 0
+      
+    # 属性加成
+    attribute_bonus:
+      Structure: 75  # 对建筑+75伤害
+      
+  # 升级后武器 - 快速充能光束
+  - id: "ColossusTaldarimChargedBeamFast"
+    name: "快速充能光束"
+    name_en: "Fast Charged Beam"
+    
+    # 目标类型
+    target_filters:
+      - "Ground"
+      - "Visible"
+    exclude_filters:
+      - "Missile"
+      - "Stasis"
+      - "Dead"
+      - "Hidden"
+      - "Invulnerable"
+      
+    # 武器属性
+    stats:
+      damage: 100  # 基础伤害（来自XML）
+      damage_type: "Normal"
+      attacks: 1
+      period: 2.5  # 较慢的攻击速度
+      range: 11   # 超远射程
+      damage_point: 0.2  # 攻击前摇
+      
+    # 攻击特性
+    properties:
+      arc: 90  # 90度攻击角度
+      allowed_movement: "Moving"  # 可移动射击（关键特性）
+      splash_radius: 0  # 单体攻击
+      
+    # 属性加成
+    attribute_bonus:
+      Structure: 75  # 对建筑+75伤害（总计175）
+ 

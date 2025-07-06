@@ -1,0 +1,73 @@
+# 攻城坦克 - 斯旺
+# 数据来源：StarCraft II Editor XML
+# 最后更新：2025-01-15
+
+unit:
+  # 基础标识
+  id: "SiegeTank"
+  name: "攻城坦克"
+  name_en: "Siege Tank"
+  commander: "Swann"
+  race: "Terr"
+  
+  # 基础属性
+  stats:
+    life: 200  # 斯旺机械单位生命值+20%
+    armor: 1
+    shields: 0
+    energy: 0
+    
+  # 成本信息
+  cost:
+    minerals: 150
+    vespene: 125
+    supply: 3
+    build_time: 43  # RepairTime in XML
+    
+  # 移动属性（攻城模式）
+  movement:
+    speed: 0  # 攻城后不能移动
+    
+  # 物理属性
+  physics:
+    radius: 0.875
+    sight: 11
+    height: 1
+    
+  # 单位类型和属性
+  plane: "Ground"
+  attributes:
+    - "Armored"
+    - "Mechanical"
+    
+  # 武器配置
+  weapons:
+    - mode: "tank"  # 坦克模式
+      weapon_ref: "90mmCannons"
+      is_default: true
+    - mode: "siege" # 攻城模式
+      weapon_ref: "CrucioShockCannon"
+      requires_morph: true
+      
+  # 特殊能力
+  abilities:
+    - "SiegeMode"  # 攻城模式
+    
+  # 模式切换
+  modes:
+    tank:
+      can_move: true
+      can_attack: true
+      weapons: ["90mmCannons"]
+    siege:
+      unit_id: "SiegeTankSieged"
+      sight: 13
+      can_move: false
+      can_attack: true
+      weapons: ["CrucioShockCannon"]
+      
+  # 游戏内部数据
+  editor_categories:
+    - "ObjectType:Unit"
+    - "ObjectFamily:FactionRaynor"
+  subgroup_priority: 113 
